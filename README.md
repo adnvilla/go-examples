@@ -4,63 +4,148 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 
 ## Examples
 
-| Directory | Description | Topics |
-|-----------|-------------|--------|
-| [benchmark](examples/benchmark/) | Benchmarks with `testing.B` | testing, performance |
-| [channels](examples/channels/) | Goroutine communication with channels | concurrency |
-| [concurrency/worker-pool](examples/concurrency/worker-pool/) | Fixed pool of goroutines consuming a shared job channel | concurrency |
-| [concurrency/scatter-gather](examples/concurrency/scatter-gather/) | Fan-out: one goroutine per task, collect all results | concurrency |
-| [concurrency/fan-out-timeout](examples/concurrency/fan-out-timeout/) | Fan-out with per-worker deadline via `time.After` | concurrency |
-| [config](examples/config/) | Reading JSON configuration with `encoding/json` | stdlib |
-| [datetime-parse](examples/datetime-parse/) | Parsing dates in multiple formats | libraries |
-| [dynamodb](examples/dynamodb/) | DynamoDB CRUD with AWS SDK v1 | AWS, databases |
-| [flags](examples/flags/) | Command-line flags with the `flag` package | stdlib, CLI |
-| [gin](examples/gin/) | Minimal HTTP API with Gin | HTTP, frameworks |
-| [inject](examples/inject/) | Dependency injection via constructor functions | DI, patterns |
-| [lambda](examples/lambda/) | AWS Lambda function in Go | AWS, serverless |
-| [metric](examples/metric/) | Sending metrics to Datadog via StatsD | observability |
-| [mysql](examples/mysql/) | MySQL connection and queries | databases |
-| [oop](examples/oop/) | Methods, interfaces and polymorphism in Go | patterns |
-| [oop/composition](examples/oop/composition/) | Struct embedding as Go's alternative to inheritance | patterns |
-| [pool](examples/pool/) | Worker pool with per-task error tracking | concurrency, patterns |
-| [profiling](examples/profiling/) | CPU/memory profiling with `pkg/profile` | performance |
-| [protobuf](examples/protobuf/) | Binary serialization with Protocol Buffers | serialization |
-| [recover](examples/recover/) | Panic handling with `recover` | error handling |
-| [redis](examples/redis/) | Task queue with Redis and Gin (go-redis v9) | Redis, HTTP |
-| [reflection-bench](examples/reflection-bench/) | Benchmarking reflection vs direct types | performance, reflection |
-| [serialization](examples/serialization/) | Flexible JSON: field that is either an object or array | serialization |
-| [share-memory-by-communicating](examples/share-memory-by-communicating/) | HTTP URL poller using channels — from the Go blog | concurrency |
-| [testing](examples/testing/) | Basic unit tests | testing |
-| [typecast](examples/typecast/) | Benchmarks: type switch vs type assertion vs interface | performance |
-| [wire](examples/wire/) | Compile-time dependency injection with Wire | DI, code generation |
+### Concurrency
+
+| Directory | Description |
+|-----------|-------------|
+| [channels](examples/channels/) | Goroutine communication with channels |
+| [concurrency/worker-pool](examples/concurrency/worker-pool/) | Fixed pool consuming a shared job channel |
+| [concurrency/scatter-gather](examples/concurrency/scatter-gather/) | One goroutine per task, collect all results |
+| [concurrency/fan-out-timeout](examples/concurrency/fan-out-timeout/) | Per-worker deadline with `time.After` |
+| [errgroup](examples/errgroup/) | `errgroup.WithContext` vs manual WaitGroup; `SetLimit` for bounded concurrency |
+| [pool](examples/pool/) | Generic worker pool with per-task error tracking |
+| [share-memory-by-communicating](examples/share-memory-by-communicating/) | URL poller via channels — from the Go blog |
+| [sync-primitives](examples/sync-primitives/) | `sync.Once`, `sync.Map`, and `atomic` operations |
+
+### Error Handling
+
+| Directory | Description |
+|-----------|-------------|
+| [errors](examples/errors/) | Sentinel errors, custom types, `errors.Is`/`As`, wrapping with `%w`, `errors.Join` |
+| [recover](examples/recover/) | Panic handling with `recover` |
+
+### HTTP
+
+| Directory | Description |
+|-----------|-------------|
+| [http-server](examples/http-server/) | stdlib HTTP server with middleware chain and graceful shutdown |
+| [http-client](examples/http-client/) | HTTP client with retries, exponential backoff, and context cancellation |
+| [gin](examples/gin/) | Minimal API with Gin framework |
+| [redis](examples/redis/) | Task queue over Redis with Gin (go-redis v9) |
+
+### Language Features
+
+| Directory | Description |
+|-----------|-------------|
+| [context](examples/context/) | Cancellation, deadlines, and `context.Value` propagation |
+| [generics](examples/generics/) | `Map`, `Filter`, `Reduce`, `cmp.Ordered`, `Option[T]` |
+| [iterator](examples/iterator/) | Range-over-func iterators (`iter.Seq`) — Go 1.23 |
+| [embed](examples/embed/) | Compile static files into the binary with `//go:embed` |
+| [functional-options](examples/functional-options/) | Configure structs without exporting fields or multiplying constructors |
+
+### Observability & Performance
+
+| Directory | Description |
+|-----------|-------------|
+| [slog](examples/slog/) | Structured logging with `log/slog` (Go 1.21) |
+| [metric](examples/metric/) | StatsD metrics to Datadog |
+| [profiling](examples/profiling/) | CPU/memory profiling with `pkg/profile` |
+| [benchmark](examples/benchmark/) | Benchmarks with `testing.B` |
+| [reflection-bench](examples/reflection-bench/) | type switch vs type assertion vs interface |
+| [typecast](examples/typecast/) | Benchmark: dispatch strategies compared |
+
+### Testing
+
+| Directory | Description |
+|-----------|-------------|
+| [testing-patterns](examples/testing-patterns/) | Table-driven tests, `t.Parallel`, subtests, fuzz testing |
+| [testing](examples/testing/) | Basic unit tests |
+
+### Patterns & Design
+
+| Directory | Description |
+|-----------|-------------|
+| [inject](examples/inject/) | Constructor dependency injection with interfaces |
+| [wire](examples/wire/) | Compile-time DI code generation with Wire |
+| [oop](examples/oop/) | Methods, interfaces, and polymorphism |
+| [oop/composition](examples/oop/composition/) | Struct embedding as alternative to inheritance |
+
+### Serialization
+
+| Directory | Description |
+|-----------|-------------|
+| [serialization](examples/serialization/) | Flexible JSON: field that is either an object or array |
+| [protobuf](examples/protobuf/) | Binary serialization with Protocol Buffers |
+
+### Cloud & Infrastructure
+
+| Directory | Description |
+|-----------|-------------|
+| [dynamodb](examples/dynamodb/) | DynamoDB CRUD with AWS SDK v1 |
+| [lambda](examples/lambda/) | AWS Lambda function |
+| [mysql](examples/mysql/) | MySQL connection and queries |
+
+### Standard Library
+
+| Directory | Description |
+|-----------|-------------|
+| [config](examples/config/) | Reading JSON config with `encoding/json` |
+| [datetime-parse](examples/datetime-parse/) | Parsing dates in multiple formats |
+| [flags](examples/flags/) | Command-line flags with `flag` |
+
+---
 
 ## Running an example
 
 ```bash
-go run ./examples/channels/
-go run ./examples/gin/
+go run ./examples/context/
+go run ./examples/generics/
+go run ./examples/http-server/
 go run ./examples/concurrency/worker-pool/
 ```
 
 ## Tests
 
 ```bash
-# All tests
-go test ./...
-
-# With race detector
+# All tests with race detector
 go test -race ./...
 
-# DynamoDB integration tests (requires local DynamoDB on :8000)
+# A specific example
+go test ./examples/testing-patterns/...
+
+# Fuzz test (runs until interrupted)
+go test -fuzz=FuzzAdd ./examples/testing-patterns/
+
+# DynamoDB integration tests (requires the dynamodb service below)
 DYNAMODB_LOCAL=1 go test ./examples/dynamodb/...
 ```
 
-## External service requirements
+## Infrastructure (Docker Compose)
 
-| Example | Requirement |
-|---------|-------------|
-| `dynamodb/` | DynamoDB Local or AWS credentials |
-| `redis/` | Redis on `localhost:6379` |
-| `mysql/` | Accessible MySQL instance |
-| `metric/` | StatsD listener on `localhost:8125` |
-| `protobuf/` | `protoc` + `protoc-gen-go` to regenerate `.pb.go` |
+Several examples need a real service to connect to. Start all services at once:
+
+```bash
+docker compose up -d
+```
+
+Or bring up only what you need:
+
+```bash
+docker compose up -d redis          # examples/redis
+docker compose up -d mysql          # examples/mysql
+docker compose up -d dynamodb       # examples/dynamodb
+docker compose up -d statsd         # examples/metric
+```
+
+Stop and clean up:
+
+```bash
+docker compose down
+```
+
+| Service | Port | Used by |
+|---------|------|---------|
+| Redis 7 | `6379` | `examples/redis` |
+| MySQL 8 | `3306` | `examples/mysql` — user `root`, password `secret`, db `examples` |
+| DynamoDB Local | `8000` | `examples/dynamodb` — set `DYNAMODB_LOCAL=1` for tests |
+| StatsD | `8125/udp` | `examples/metric` |
