@@ -1,3 +1,4 @@
+//nolint:staticcheck // golang/protobuf v1.5 compat wrapper — upgrade requires protoc toolchain
 package main
 
 import (
@@ -21,7 +22,7 @@ func main() {
 	if err != nil {
 		log.Fatalln("Failed to encode address book:", err)
 	}
-	if err := os.WriteFile(fname, out, 0644); err != nil {
+	if err := os.WriteFile(fname, out, 0600); err != nil {
 		log.Fatalln("Failed to write address book:", err)
 	}
 

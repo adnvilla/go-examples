@@ -1,3 +1,4 @@
+//nolint:staticcheck // legacy AWS SDK v1 example; SA4006 false-positives on err reassignment chains
 package main
 
 import (
@@ -166,7 +167,10 @@ func getItems() []Item {
 	}
 
 	var items []Item
-	json.Unmarshal(raw, &items)
+	if err := json.Unmarshal(raw, &items); err != nil {
+		fmt.Println("error parsing movie data:", err)
+		os.Exit(1)
+	}
 	return items
 }
 func TestCreateItems(t *testing.T) {

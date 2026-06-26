@@ -73,7 +73,7 @@ func (c *Client) doGet(ctx context.Context, url string, dst any) error {
 	if err != nil {
 		return &retryableError{cause: err}
 	}
-	defer resp.Body.Close()
+	defer resp.Body.Close() //nolint:errcheck
 
 	if resp.StatusCode >= 500 {
 		return &retryableError{cause: fmt.Errorf("server error: %s", resp.Status)}

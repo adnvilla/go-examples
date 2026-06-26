@@ -22,7 +22,7 @@ func worker(id int, wg *sync.WaitGroup, out chan<- result) {
 
 	done := make(chan result, 1)
 	go func() {
-		delay := time.Duration(rand.Intn(500)) * time.Millisecond
+		delay := time.Duration(rand.Intn(500)) * time.Millisecond //nolint:gosec
 		time.Sleep(delay)
 		done <- result{id: id, message: fmt.Sprintf("worker %d done in %s", id, delay)}
 	}()

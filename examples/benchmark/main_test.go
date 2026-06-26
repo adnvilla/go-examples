@@ -1,3 +1,4 @@
+//nolint:errcheck,noctx,unused // legacy example predating the context API
 package benchmark
 
 import (

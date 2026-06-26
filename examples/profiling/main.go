@@ -76,7 +76,7 @@ func worker(idWorker int, timeOut int, request Request, wg *sync.WaitGroup, resp
 }
 
 func workerTask(idWorker int, request Request, ch chan<- Response) {
-	r := rand.Intn(10000)
+	r := rand.Intn(10000) //nolint:gosec
 
 	time.Sleep(time.Duration(r) * time.Millisecond)
 	fmt.Printf("Worker %d Time: %d \n", idWorker, r)

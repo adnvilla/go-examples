@@ -11,7 +11,7 @@ import (
 
 func fetch(id int, wg *sync.WaitGroup, results chan<- string) {
 	defer wg.Done()
-	delay := time.Duration(rand.Intn(500)) * time.Millisecond
+	delay := time.Duration(rand.Intn(500)) * time.Millisecond //nolint:gosec
 	time.Sleep(delay)
 	results <- fmt.Sprintf("result from worker %d (took %s)", id, delay)
 }

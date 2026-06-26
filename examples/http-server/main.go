@@ -52,7 +52,9 @@ type envelope struct {
 func writeJSON(w http.ResponseWriter, status int, v any) {
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(status)
-	json.NewEncoder(w).Encode(v)
+	if err := json.NewEncoder(w).Encode(v); err != nil {
+		slog.Error("writeJSON encode", "error", err)
+	}
 }
 
 func handleHealth(w http.ResponseWriter, _ *http.Request) {

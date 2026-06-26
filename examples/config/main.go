@@ -16,11 +16,15 @@ type Configuration struct {
 
 func main() {
 
-	file, _ := os.Open("config.json")
-	defer file.Close()
+	file, err := os.Open("config.json")
+	if err != nil {
+		fmt.Println("error opening config:", err)
+		return
+	}
+	defer file.Close() //nolint:errcheck
 	decoder := json.NewDecoder(file)
 	configuration := Configuration{}
-	err := decoder.Decode(&configuration)
+	err = decoder.Decode(&configuration)
 	if err != nil {
 		fmt.Println("error:", err)
 	}

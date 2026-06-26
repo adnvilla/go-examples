@@ -1,0 +1,63 @@
+version: "2"
+
+linters:
+  default: none
+  enable:
+    # correctness
+    - errcheck        # unchecked errors
+    - govet           # suspicious constructs (shadow, printf, etc.)
+    - staticcheck     # comprehensive static analysis
+    - unused          # unused code
+    # style / clarity
+    - misspell        # common spelling mistakes in comments and strings
+    - unconvert       # unnecessary type conversions
+    # security
+    - gosec           # common security issues
+    # bugs
+    - bodyclose       # HTTP response body not closed
+    - noctx           # HTTP request without context
+    - rowserrcheck    # sql.Rows.Err() not checked
+
+linters-settings:
+  govet:
+    enable-all: true
+    disable:
+      - fieldalignment  # struct padding — not relevant for examples
+  gosec:
+    excludes:
+      - G104  # unhandled errors — some examples intentionally omit error checks for brevity
+      - G404  # math/rand — acceptable for simulating delays; examples are not security-sensitive
+      - G108  # pprof endpoint — intentional in the profiling/reflection-bench examples
+
+issues:
+  exclude-rules:
+    # Legacy benchmark example: uses database/sql without context (pre-dates context API)
+    - path: "examples/benchmark/"
+      linters: [errcheck, noctx, unused, staticcheck]
+
+    # Legacy mysql example: pre-context API, noctx and errcheck on defer close
+    - path: "examples/mysql/"
+      linters: [errcheck, noctx]
+
+    # Legacy reflection-bench: unused global, file close in defer
+    - path: "examples/reflection-bench/"
+      linters: [errcheck, unused]
+
+    # Legacy dynamodb: unused err variables in test setup helpers
+    - path: "examples/dynamodb/"
+      linters: [staticcheck]
+
+    # Protobuf: generated file uses deprecated golang/protobuf wrapper (acceptable — needs protoc to regenerate)
+    - path: "examples/protobuf/"
+      linters: [staticcheck]
+
+    # defer body.Close() — the pattern is correct, errcheck false-positive on deferred calls
+    - source: "defer resp.Body.Close()"
+      linters: [errcheck]
+
+    # Test files get relaxed security rules
+    - path: "_test\\.go"
+      linters: [gosec]
+
+  max-issues-per-linter: 0
+  max-same-issues: 0
