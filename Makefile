@@ -1,10 +1,18 @@
 default: build
 
-# Linux OR Windows
-#go build -o /dev/null ./... OR go build -o NUL ./...
-
 build:
-	go build -o /dev/null ./... 
+	go build ./...
 
-build_test:
-	go test -c ./...
+test:
+	go test -race ./...
+
+vet:
+	go vet ./...
+
+tidy:
+	go mod tidy
+
+lint:
+	golangci-lint run ./...
+
+.PHONY: build test vet tidy lint
