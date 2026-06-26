@@ -1,11 +1,8 @@
+// Package composition demonstrates struct embedding as Go's alternative to inheritance.
+// Embedding promotes fields and methods, but the embedded type is still accessible directly.
 package composition
 
 import "fmt"
-
-type Person struct {
-	Name    string
-	Address Address
-}
 
 type Address struct {
 	Number string
@@ -15,50 +12,31 @@ type Address struct {
 	Zip    string
 }
 
+type Person struct {
+	Name    string
+	Address Address
+}
+
 func (p *Person) Talk() {
 	fmt.Println("Hi, my name is", p.Name)
 }
 
 func (p *Person) Location() {
-	fmt.Println("I’m at", p.Address.Number, p.Address.Street, p.Address.City, p.Address.State, p.Address.Zip)
+	fmt.Printf("I'm at %s %s, %s %s %s\n",
+		p.Address.Number, p.Address.Street, p.Address.City, p.Address.State, p.Address.Zip)
 }
 
-func main() {
-	p := Person{
-		Name: "Steve",
-		Address: Address{
-			Number: "13",
-			Street: "Main",
-			City:   "Gotham",
-			State:  "NY",
-			Zip:    "01313",
-		},
-	}
-
-	p.Talk()
-	p.Location()
-}
-
-//////////////////////////////////////////
-
+// Citizen embeds Person, promoting all of Person's fields and methods.
+// It can override Talk to specialise behaviour.
 type Citizen struct {
 	Country string
 	Person
 }
 
-func (c *Citizen) Nationality() {
-	fmt.Println(c.Name, "is a citizen of", c.Country)
-}
-
-func main2() {
-	c := Citizen{}
-	c.Name = "Steve"
-	c.Country = "America"
-	c.Talk()
-	c.Nationality()
-}
-
-//
 func (c *Citizen) Talk() {
-	fmt.Println("Hello, my name is", c.Name, "and I'm from", c.Country)
+	fmt.Printf("Hello, my name is %s and I'm from %s\n", c.Name, c.Country)
+}
+
+func (c *Citizen) Nationality() {
+	fmt.Printf("%s is a citizen of %s\n", c.Name, c.Country)
 }

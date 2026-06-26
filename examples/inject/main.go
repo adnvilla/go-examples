@@ -1,96 +1,74 @@
+// Dependency injection via constructor functions — the idiomatic Go approach.
+// No reflection, no struct tags, no framework: dependencies are explicit parameters.
+//
+// For compile-time DI code generation see the wire/ example.
 package main
 
 import (
 	"fmt"
 	"net/http"
-	"os"
-
-	"github.com/facebookgo/inject"
 )
 
-// Our Awesome Application renders a message using two APIs in our fake
-// world.
-type HomePlanetRenderApp struct {
-	// The tags below indicate to the inject library that these fields are
-	// eligible for injection. They do not specify any options, and will
-	// result in a singleton instance created for each of the APIs.
-
-	NameAPI   *NameAPI   `inject:""`
-	PlanetAPI *PlanetAPI `inject:""`
+// Namer resolves a user ID to a display name.
+type Namer interface {
+	Name(id uint64) string
 }
 
-func (a *HomePlanetRenderApp) Render(id uint64) string {
-	return fmt.Sprintf(
-		"%s is from the planet %s. %s",
-		a.NameAPI.Name(id),
-		a.PlanetAPI.Planet(id),
-		a.NameAPI.HTTPTransport,
-	)
+// Planner resolves a user ID to their home planet.
+type Planter interface {
+	Planet(id uint64) string
 }
 
-// Our fake Name API.
+// NameAPI is an HTTP-backed implementation of Namer.
 type NameAPI struct {
-	// Here and below in PlanetAPI we add the tag to an interface value.
-	// This value cannot automatically be created (by definition) and
-	// hence must be explicitly provided to the graph.
-
-	HTTPTransport http.RoundTripper `inject:""`
+	transport http.RoundTripper
 }
 
-func (n *NameAPI) Name(id uint64) string {
-	// in the real world we would use f.HTTPTransport and fetch the name
+func NewNameAPI(transport http.RoundTripper) *NameAPI {
+	return &NameAPI{transport: transport}
+}
+
+func (n *NameAPI) Name(_ uint64) string {
+	// real impl would use n.transport to call a remote service
 	return "Spock"
 }
 
-// Our fake Planet API.
+// PlanetAPI is an HTTP-backed implementation of Planter.
 type PlanetAPI struct {
-	HTTPTransport http.RoundTripper `inject:""`
+	transport http.RoundTripper
 }
 
-func (p *PlanetAPI) Planet(id uint64) string {
-	// in the real world we would use f.HTTPTransport and fetch the planet
+func NewPlanetAPI(transport http.RoundTripper) *PlanetAPI {
+	return &PlanetAPI{transport: transport}
+}
+
+func (p *PlanetAPI) Planet(_ uint64) string {
 	return "Vulcan"
 }
 
+// App composes the two APIs. Dependencies are injected via the constructor,
+// not through struct tags or a global graph.
+type App struct {
+	names   Namer
+	planets Planter
+}
+
+func NewApp(names Namer, planets Planter) *App {
+	return &App{names: names, planets: planets}
+}
+
+func (a *App) Render(id uint64) string {
+	return fmt.Sprintf("%s is from %s", a.names.Name(id), a.planets.Planet(id))
+}
+
 func main() {
-	// Typically an application will have exactly one object graph, and
-	// you will create it and use it within a main function:
-	var g inject.Graph
+	transport := http.DefaultTransport
 
-	// We provide our graph two "seed" objects, one our empty
-	// HomePlanetRenderApp instance which we're hoping to get filled out,
-	// and second our DefaultTransport to satisfy our HTTPTransport
-	// dependency. We have to provide the DefaultTransport because the
-	// dependency is defined in terms of the http.RoundTripper interface,
-	// and since it is an interface the library cannot create an instance
-	// for it. Instead it will use the given DefaultTransport to satisfy
-	// the dependency since it implements the interface:
-	var a HomePlanetRenderApp
-	err := g.Provide(
-		&inject.Object{Value: &a},
-		&inject.Object{Value: http.DefaultTransport},
-	)
-	if err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
+	// Each dependency is constructed explicitly and passed down the chain.
+	// A DI framework would generate this wiring; Wire (see wire/ example) does so at compile time.
+	nameAPI := NewNameAPI(transport)
+	planetAPI := NewPlanetAPI(transport)
+	app := NewApp(nameAPI, planetAPI)
 
-	// Here the Populate call is creating instances of NameAPI &
-	// PlanetAPI, and setting the HTTPTransport on both to the
-	// http.DefaultTransport provided above:
-	if err := g.Populate(); err != nil {
-		fmt.Fprintln(os.Stderr, err)
-		os.Exit(1)
-	}
-
-	// There is a shorthand API for the simple case which combines the
-	// three calls above is available as inject.Populate:
-	//
-	//   inject.Populate(&a, http.DefaultTransport)
-	//
-	// The above API shows the underlying API which also allows the use of
-	// named instances for more complex scenarios.
-
-	fmt.Println(a.Render(42))
-
+	fmt.Println(app.Render(42))
 }

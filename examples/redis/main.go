@@ -1,204 +1,135 @@
+// Redis task queue example: an HTTP endpoint enqueues a job and waits for the result,
+// while background engine workers process the queue and publish results.
+// Demonstrates go-redis v9 where every operation requires a context.Context.
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"math/rand"
 	"net/http"
-	"runtime"
 	"strconv"
 	"sync"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-redis/redis"
+	"github.com/redis/go-redis/v9"
+)
+
+const (
+	redisAddr              = "localhost:6379"
+	queueTaskKey           = "queue:task:"
+	queueProcessedKey      = "queue:processed:"
+	workerTimeout          = 4 * time.Second
 )
 
 var redisClient *redis.Client
 
-const redisAdrr string = "192.168.99.101:6379"
-const queueTaskID string = "myqueue.task"
-const queueProcessedTaskID string = "myqueue.processedtask"
-
-// Response Response
 type Response struct {
-	Engine []string `json:"Engine"`
+	Engine []string `json:"engine"`
 }
 
 func main() {
-	r := setupRouter()
-	// Listen and Server in 0.0.0.0:8080
+	redisClient = redis.NewClient(&redis.Options{
+		Addr: redisAddr,
+	})
+
+	ctx := context.Background()
+	if err := redisClient.Ping(ctx).Err(); err != nil {
+		log.Fatalf("cannot connect to Redis at %s: %v", redisAddr, err)
+	}
+
+	const numEngines = 2
+	for i := range numEngines {
+		go runEngine(i)
+	}
+
+	r := gin.Default()
+	r.GET("/quote", handleQuote(numEngines))
+	log.Println("listening on :8080")
 	r.Run(":8080")
 }
 
-func setupRouter() *gin.Engine {
+func handleQuote(numEngines int) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx := c.Request.Context()
+		results := make(chan string, numEngines)
 
-	redisClient = redis.NewClient(&redis.Options{
-		Addr:         redisAdrr,
-		Network:      "tcp",
-		ReadTimeout:  0,
-		WriteTimeout: 0,
-		Password:     "", // no password set
-		DB:           0,  // use default DB
-	})
-
-	r := gin.Default()
-	gin.SetMode(gin.ReleaseMode)
-	engines := 2
-
-	for i := 0; i < engines; i++ {
-		go workerEngine(i)
-	}
-
-	r.GET("/quote", func(c *gin.Context) {
 		var wg sync.WaitGroup
-
-		responseChan := make(chan Response, engines)
-
-		response := Response{
-			Engine: []string{},
+		wg.Add(numEngines)
+		for i := range numEngines {
+			go func(engineID int) {
+				defer wg.Done()
+				result, err := enqueueAndWait(ctx, engineID)
+				if err != nil {
+					log.Printf("engine %d: %v", engineID, err)
+					results <- fmt.Sprintf("engine %d: error", engineID)
+					return
+				}
+				results <- result
+			}(i)
 		}
 
-		wg.Add(engines)
-		for i := 0; i < engines; i++ {
-			go workerEngineTask(i, responseChan, &wg)
+		wg.Wait()
+		close(results)
+
+		var response Response
+		for r := range results {
+			response.Engine = append(response.Engine, r)
 		}
-
-		go func() {
-			defer close(responseChan)
-			wg.Wait()
-		}()
-
-		for resp := range responseChan {
-			response.Engine = append(response.Engine, resp.Engine...)
-			//log.Println("Append")
-		}
-
 		c.JSON(http.StatusOK, response)
-	})
-
-	return r
+	}
 }
 
-func workerEngineTask(prefixEngine int, rChan chan Response, wg *sync.WaitGroup) {
-	defer func() {
-		if r := recover(); r != nil {
-			if _, ok := r.(runtime.Error); ok {
-				panic(r)
-			}
-			err := r.(error)
-			log.Println("ERROR")
-			log.Println(err)
-
-			rChan <- Response{}
-		}
-		wg.Done()
-	}()
-
-	queueID, err := redisClient.IncrBy(strconv.Itoa(prefixEngine)+"queueId", 1).Result()
-	//log.Println("IncrBy")
+func enqueueAndWait(ctx context.Context, engineID int) (string, error) {
+	queueID, err := redisClient.Incr(ctx, fmt.Sprintf("%s%d:counter", queueTaskKey, engineID)).Result()
 	if err != nil {
-		log.Println(err)
-		rChan <- Response{}
-		return
+		return "", fmt.Errorf("incr: %w", err)
 	}
 
-	taskID := strconv.Itoa(prefixEngine) + queueTaskID
-	//log.Println(queueID)
+	taskQueue := fmt.Sprintf("%s%d", queueTaskKey, engineID)
+	if err := redisClient.RPush(ctx, taskQueue, queueID).Err(); err != nil {
+		return "", fmt.Errorf("rpush: %w", err)
+	}
 
-	_, err = redisClient.RPush(taskID, strconv.FormatInt(queueID, 10)).Result()
-	//log.Println("RPush")
+	resultKey := fmt.Sprintf("%s%d:%d", queueProcessedKey, engineID, queueID)
+	vals, err := redisClient.BLPop(ctx, workerTimeout, resultKey).Result()
+	if err == redis.Nil {
+		return "", fmt.Errorf("timed out waiting for result")
+	}
 	if err != nil {
-		log.Println(err)
-		rChan <- Response{}
-		return
+		return "", fmt.Errorf("blpop: %w", err)
 	}
-	//log.Println(i)
-
-	queueProcessedTask := strconv.Itoa(prefixEngine) + queueProcessedTaskID + strconv.FormatInt(queueID, 10)
-
-	durationString := "4000ms"
-	duration, _ := time.ParseDuration(durationString)
-	processedResult, err := redisClient.BLPop(duration, queueProcessedTask).Result()
-	if redis.Nil == err {
-		log.Println(err)
-		rChan <- Response{}
-		return
-	}
-
-	if err != nil {
-		log.Println(err)
-		rChan <- Response{}
-		return
-	}
-
-	var jobID string
-	if processedResult != nil && len(processedResult) == 2 && processedResult[0] == queueProcessedTask {
-		jobID = processedResult[1]
-	} else {
-		log.Println(fmt.Sprintf("Se obtiene incorrectamente items de la lista: %#v", queueProcessedTask))
-		rChan <- Response{}
-		return
-	}
-
-	//log.Println(string(jobID))
-
-	rChan <- Response{
-		Engine: []string{strconv.Itoa(prefixEngine) + " " + string(jobID)},
-	}
-
-	//log.Println("BLPop")
+	return fmt.Sprintf("engine %d result: %s", engineID, vals[1]), nil
 }
 
-func workerEngine(prefixEngine int) {
-
-	redisEngineClient := redis.NewClient(&redis.Options{
-		Addr:         redisAdrr,
-		Network:      "tcp",
-		ReadTimeout:  0,
-		WriteTimeout: 0,
-		MaxRetries:   3,
-		Password:     "", // no password set
-		DB:           0,  // use default DB
+func runEngine(engineID int) {
+	client := redis.NewClient(&redis.Options{
+		Addr:       redisAddr,
+		MaxRetries: 3,
 	})
-
-	taskID := strconv.Itoa(prefixEngine) + queueTaskID
+	taskQueue := fmt.Sprintf("%s%d", queueTaskKey, engineID)
 
 	for {
-		durationString := "4000ms"
-		duration, _ := time.ParseDuration(durationString)
-		job, err := redisEngineClient.BLPop(duration, taskID).Result()
-
-		if redis.Nil == err {
-			log.Println(err)
+		ctx := context.Background()
+		vals, err := client.BLPop(ctx, workerTimeout, taskQueue).Result()
+		if err == redis.Nil {
+			continue
+		}
+		if err != nil {
+			log.Printf("engine %d blpop error: %v", engineID, err)
+			time.Sleep(time.Second)
 			continue
 		}
 
-		if err != nil {
-			log.Println(err)
-			return
+		jobID := vals[1]
+		delay := time.Duration(rand.Intn(2000)) * time.Millisecond
+		time.Sleep(delay)
+
+		resultKey := fmt.Sprintf("%s%d:%s", queueProcessedKey, engineID, jobID)
+		if err := client.RPush(ctx, resultKey, strconv.Itoa(int(delay.Milliseconds()))).Err(); err != nil {
+			log.Printf("engine %d rpush error: %v", engineID, err)
 		}
-
-		var jobID string
-		if job != nil && len(job) == 2 && job[0] == taskID {
-			jobID = job[1]
-		} else {
-			log.Println(fmt.Sprintf("Se obtiene incorrectamente items de la lista: %#v", taskID))
-			continue
-		}
-		//log.Println("BLPop")
-
-		r := rand.Intn(2000)
-		time.Sleep(time.Duration(r) * time.Millisecond)
-
-		_, err = redisClient.RPush(strconv.Itoa(prefixEngine)+queueProcessedTaskID+string(jobID), strconv.Itoa(r)).Result()
-		//log.Println("RPush")
-		if err != nil {
-			log.Println(err)
-			return
-		}
-		//log.Println("=> " + strconv.FormatInt(i, 10))
-
 	}
-
 }
