@@ -48,7 +48,9 @@ func main() {
 	r := gin.Default()
 	r.GET("/quote", handleQuote(numEngines))
 	log.Println("listening on :8080")
-	r.Run(":8080")
+	if err := r.Run(":8080"); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func handleQuote(numEngines int) gin.HandlerFunc {
@@ -124,7 +126,7 @@ func runEngine(engineID int) {
 		}
 
 		jobID := vals[1]
-		delay := time.Duration(rand.Intn(2000)) * time.Millisecond
+		delay := time.Duration(rand.Intn(2000)) * time.Millisecond //nolint:gosec
 		time.Sleep(delay)
 
 		resultKey := fmt.Sprintf("%s%d:%s", queueProcessedKey, engineID, jobID)

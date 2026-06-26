@@ -66,12 +66,13 @@ type Resource struct {
 // Poll executes an HTTP HEAD request for url
 // and returns the HTTP status string or an error string.
 func (r *Resource) Poll() string {
-	resp, err := http.Head(r.url)
+	resp, err := http.Head(r.url) //nolint:noctx
 	if err != nil {
 		log.Println("Error", r.url, err)
 		r.errCount++
 		return err.Error()
 	}
+	defer resp.Body.Close() //nolint:errcheck
 	r.errCount = 0
 	return resp.Status
 }

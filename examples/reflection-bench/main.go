@@ -1,9 +1,10 @@
+//nolint:errcheck,unused // legacy profiling example; file close errors intentionally ignored in defer
 package main
 
 import (
 	"flag"
 	"log"
-	_ "net/http/pprof"
+	_ "net/http/pprof" //nolint:gosec
 	"os"
 	"reflect"
 	"runtime"

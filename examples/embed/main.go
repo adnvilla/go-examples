@@ -43,7 +43,7 @@ func main() {
 
 	// Embed a whole directory as an fs.FS.
 	fmt.Println("=== embedded directory ===")
-	fs.WalkDir(staticFS, "static", func(path string, d fs.DirEntry, err error) error {
+	if err := fs.WalkDir(staticFS, "static", func(path string, d fs.DirEntry, err error) error {
 		if err != nil || d.IsDir() {
 			return err
 		}
@@ -54,5 +54,7 @@ func main() {
 		}
 		fmt.Printf("%s (%d bytes): %s\n", path, len(data), preview)
 		return nil
-	})
+	}); err != nil {
+		fmt.Println("walk error:", err)
+	}
 }

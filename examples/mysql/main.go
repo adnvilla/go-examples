@@ -1,3 +1,4 @@
+//nolint:errcheck,noctx // legacy example predating the context API
 package main
 
 import (

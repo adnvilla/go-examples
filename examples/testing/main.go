@@ -1,10 +1,12 @@
 package main
 
-// Sum x and y
+import "fmt"
+
+// Sum returns the sum of x and y.
 func Sum(x int, y int) int {
 	return x + y
 }
 
 func main() {
-	Sum(5, 5)
+	fmt.Println(Sum(5, 5))
 }
