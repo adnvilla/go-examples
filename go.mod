@@ -11,7 +11,6 @@ require (
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-sql-driver/mysql v1.8.1
 	github.com/golang/protobuf v1.5.4
-	github.com/google/wire v0.6.0
 	github.com/json-iterator/go v1.1.12
 	github.com/pkg/profile v1.7.0
 	github.com/redis/go-redis/v9 v9.21.0

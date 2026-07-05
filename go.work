@@ -27,4 +27,5 @@ use (
 	./examples/sync-primitives
 	./examples/testing
 	./examples/testing-patterns
+	./examples/wire
 )
