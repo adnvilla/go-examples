@@ -7,36 +7,53 @@ help:
 	@echo "Usage:"
 	@sed -n 's/^##//p' ${MAKEFILE_LIST} | column -t -s ':' | sed -e 's/^/ /'
 
-## build: compile all examples
+## build: compile every workspace module (root + each migrated example)
 .PHONY: build
 build:
-	go build ./...
+	@for d in $$(go list -m -f '{{.Dir}}'); do \
+		echo "==> build $$d"; \
+		(cd "$$d" && go build ./...) || exit 1; \
+	done
 
-## test: run all tests with the race detector
+## test: run all tests with the race detector, in every workspace module
 .PHONY: test
 test:
-	go test -race -count=1 ./...
+	@for d in $$(go list -m -f '{{.Dir}}'); do \
+		echo "==> test $$d"; \
+		(cd "$$d" && go test -race -count=1 ./...) || exit 1; \
+	done
 
-## vet: run go vet
+## vet: run go vet in every workspace module
 .PHONY: vet
 vet:
-	go vet ./...
+	@for d in $$(go list -m -f '{{.Dir}}'); do \
+		echo "==> vet $$d"; \
+		(cd "$$d" && go vet ./...) || exit 1; \
+	done
 
-## lint: run golangci-lint (requires golangci-lint in PATH)
+## lint: run golangci-lint in every workspace module (requires golangci-lint in PATH)
 .PHONY: lint
 lint:
-	golangci-lint run ./...
+	@for d in $$(go list -m -f '{{.Dir}}'); do \
+		echo "==> lint $$d"; \
+		(cd "$$d" && golangci-lint run --timeout=5m ./...) || exit 1; \
+	done
 
-## vuln: run govulncheck (requires govulncheck in PATH)
+## vuln: run govulncheck in every workspace module (requires govulncheck in PATH)
 .PHONY: vuln
 vuln:
-	govulncheck ./...
+	@for d in $$(go list -m -f '{{.Dir}}'); do \
+		echo "==> vuln $$d"; \
+		(cd "$$d" && govulncheck ./...) || exit 1; \
+	done
 
-## tidy: tidy and verify go.mod / go.sum
+## tidy: tidy and verify go.mod / go.sum in every workspace module
 .PHONY: tidy
 tidy:
-	go mod tidy
-	go mod verify
+	@for d in $$(go list -m -f '{{.Dir}}'); do \
+		echo "==> tidy $$d"; \
+		(cd "$$d" && go mod tidy && go mod verify) || exit 1; \
+	done
 
 ## run: run a specific example  (usage: make run EXAMPLE=context)
 .PHONY: run
