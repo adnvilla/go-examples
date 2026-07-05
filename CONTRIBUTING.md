@@ -2,25 +2,84 @@
 
 ## Adding a new example
 
-1. Create a directory under `examples/` with a lowercase, hyphen-separated name:
+New examples are standalone Go modules, isolated from every other example and from the root module. This is a deliberate departure from the pre-existing examples (which still share the root `go.mod` — see "Legacy examples" below): a new example must be copy-pasteable on its own, with its own dependency graph.
+
+1. Create a directory under `examples/` with a lowercase, hyphen-separated name, then init its own module and register it with the workspace:
+   ```bash
+   mkdir examples/my-topic
+   cd examples/my-topic
+   go mod init github.com/adnvilla/go-examples/examples/my-topic
+   cd ../..
+   go work use ./examples/my-topic
+   ```
+
+2. One example = one primary concept (e.g. "Worker Pool", "Circuit Breaker", "Graceful Shutdown"). Don't combine unrelated concepts (e.g. Kafka + Postgres + retry + worker pool) into a single example — split into separate directories instead.
+
+3. Structure, whenever applicable:
    ```
    examples/my-topic/
+   ├── README.md
+   ├── go.mod
+   ├── go.sum
+   ├── main.go
+   ├── Makefile
+   ├── internal/     (optional)
+   ├── pkg/          (optional)
+   ├── testdata/     (optional)
+   └── *_test.go
    ```
+   The `Makefile` should provide `run`, `test`, `lint`, `vet`, and `fmt` targets so the example is runnable with a single documented command (`make run` or `go run .`) — no undocumented manual setup.
 
-2. Add a `main.go` (for runnable examples) or a package with `_test.go` (for library examples). Every example must compile and, where possible, include tests.
+4. Every example needs a `README.md` with these sections, in order:
+   ```
+   # Title
+   ## Objective
+   ## Concepts Covered
+   ## Prerequisites
+   ## Project Structure
+   ## How to Run
+   ## Expected Output
+   ## Code Walkthrough
+   ## Common Pitfalls
+   ## References
+   ## Next Steps
+   ```
+   Explain **why** the code exists, not just what it does. State the learning objectives explicitly (e.g. "goroutines, channels, context cancellation"), tag a single primary **Category** (basics, concurrency, channels, context, synchronization, networking, http, grpc, database, sql, kafka, messaging, cli, testing, benchmarking, observability, security, performance, design-patterns, architecture) and a **Difficulty** (Beginner / Intermediate / Advanced). Document the expected output so readers can verify the example works. Cite the source when the example implements an established pattern or recommendation (Go Blog, Effective Go, Go Code Review Comments, Go Proverbs, Uber Go Style Guide, Google Go Style Decisions, Go Memory Model, official package docs).
 
-3. Follow these conventions:
+5. Follow these conventions:
    - First line of `main.go`: a single-line comment explaining what the example demonstrates and **why** the pattern matters.
    - No Spanish text in code, comments, or README entries.
-   - Prefer stdlib over external dependencies. Add a dependency only when it's the canonical library for the topic (e.g., `go-redis/v9` for Redis).
-   - If the example needs a real service (database, cache, queue), add a service entry to `docker-compose.yml` and document the requirement in the README table.
+   - Idiomatic Go, standard-library first — add an external dependency only when it's the canonical/de-facto library for the topic (e.g. `go-redis/v9` for Redis) or the dependency itself is the thing being taught. Justify every dependency.
+   - Handle errors explicitly (`if err != nil { return err }`); no ignored errors, no empty `recover` blocks, no `panic`/`log.Fatal` inside library code — unless panic/recover is the concept the example teaches.
+   - `context.Context` as the first parameter for any operation that blocks, does I/O, may be cancelled, or talks to a network/database/external system.
+   - Prefer readable code over clever code: avoid premature optimization, reflection, `unsafe`, and metaprogramming unless that is the example's actual topic.
+   - Descriptive names (`worker`, `job`, `repository`) over placeholders (`x`, `tmp`, `foo`). Comments explain intent/why, not what the code already says.
+   - `log/slog` for structured output, `fmt.Println` for simple demonstrations — keep logging minimal.
+   - Tests must be deterministic — no flaky tests, no unseeded randomness or timing-dependent assertions, unless the example is specifically about non-determinism.
+   - If the example needs a real service (database, cache, queue), add a service entry to `docker-compose.yml` and document the requirement in the README.
 
-4. Register the example in the README table under the appropriate section.
+6. Register the example in the root `README.md` index table under the appropriate section — the root README stays the cross-example discovery index; the per-example `README.md` holds the depth.
 
-5. Run the full CI pipeline locally before opening a PR:
+7. Run the full CI pipeline locally before opening a PR:
    ```bash
    make ci
    ```
+
+### Legacy examples
+
+Most existing examples (everything already in the repo before this standard) still live in the shared root module (`go.mod` at the repo root, no `go.work use` entry, no per-example `README.md`/`Makefile`). Don't migrate an existing example to the standalone-module standard as a side effect of an unrelated change — migration is its own PR. Small fixes/updates to a legacy example follow the existing shared-module conventions (root `go build ./...`, `go test ./...`, edit the root `README.md` table entry).
+
+### Pull request checklist
+
+Before opening a PR, verify:
+- The example teaches one primary concept.
+- It compiles and runs successfully (`go run .` or `make run`).
+- Tests pass and are deterministic.
+- `README.md` is complete (or the root table entry is updated, for legacy examples).
+- Expected output is documented.
+- Code is idiomatic Go and every dependency is justified.
+- `make lint` and `gofmt` pass.
+- The example is understandable without external explanation — when in doubt, prefer clarity over cleverness.
 
 ## Running examples
 
