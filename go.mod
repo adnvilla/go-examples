@@ -3,7 +3,6 @@ module github.com/adnvilla/go-examples
 go 1.25.0
 
 require (
-	github.com/aws/aws-lambda-go v1.47.0
 	github.com/aws/aws-sdk-go v1.54.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-sql-driver/mysql v1.8.1
