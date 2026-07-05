@@ -11,8 +11,8 @@ import (
 // --- sentinel errors ---
 
 var (
-	ErrNotFound   = errors.New("not found")
-	ErrForbidden  = errors.New("forbidden")
+	ErrNotFound  = errors.New("not found")
+	ErrForbidden = errors.New("forbidden")
 )
 
 // --- custom error type ---

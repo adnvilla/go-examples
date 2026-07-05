@@ -9,4 +9,5 @@ use (
 	./examples/config
 	./examples/context
 	./examples/embed
+	./examples/errors
 )
