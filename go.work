@@ -10,6 +10,7 @@ use (
 	./examples/config
 	./examples/context
 	./examples/embed
+	./examples/errgroup
 	./examples/errors
 	./examples/flags
 	./examples/functional-options
