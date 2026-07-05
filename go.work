@@ -3,5 +3,6 @@ go 1.25.0
 use (
 	.
 	./examples/channels
+	./examples/concurrency/scatter-gather
 	./examples/concurrency/worker-pool
 )
