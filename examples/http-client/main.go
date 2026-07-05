@@ -59,8 +59,8 @@ func (c *Client) GetJSON(ctx context.Context, url string, dst any) error {
 
 type retryableError struct{ cause error }
 
-func (e *retryableError) Error() string  { return fmt.Sprintf("retryable: %v", e.cause) }
-func (e *retryableError) Unwrap() error  { return e.cause }
+func (e *retryableError) Error() string { return fmt.Sprintf("retryable: %v", e.cause) }
+func (e *retryableError) Unwrap() error { return e.cause }
 
 func (c *Client) doGet(ctx context.Context, url string, dst any) error {
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)

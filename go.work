@@ -13,4 +13,5 @@ use (
 	./examples/flags
 	./examples/functional-options
 	./examples/generics
+	./examples/http-client
 )
