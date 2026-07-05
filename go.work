@@ -18,4 +18,5 @@ use (
 	./examples/inject
 	./examples/iterator
 	./examples/oop
+	./examples/oop/composition
 )
