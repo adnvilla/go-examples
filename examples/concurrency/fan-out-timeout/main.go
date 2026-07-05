@@ -12,8 +12,8 @@ import (
 const workerTimeout = 300 * time.Millisecond
 
 type result struct {
-	id      int
-	message string
+	id       int
+	message  string
 	timedOut bool
 }
 
