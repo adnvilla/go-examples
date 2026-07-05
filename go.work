@@ -24,4 +24,5 @@ use (
 	./examples/slog
 	./examples/sync-primitives
 	./examples/testing
+	./examples/testing-patterns
 )
