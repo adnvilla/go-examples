@@ -11,7 +11,7 @@ import (
 
 var result int
 
-var constr = "user:pass@tcp(localhost:3306)/dbname"
+var constr = "root:secret@tcp(localhost:3306)/examples"
 
 func Ping(b *testing.B, db *sql.DB) {
 	err := db.Ping()
