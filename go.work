@@ -29,6 +29,7 @@ use (
 	./examples/profiling
 	./examples/protobuf
 	./examples/recover
+	./examples/redis
 	./examples/reflection-bench
 	./examples/serialization
 	./examples/share-memory-by-communicating

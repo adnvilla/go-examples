@@ -24,5 +24,5 @@ export default function() {
 }
 
 function getUrl(){
-  return "http://192.168.56.1:8080/quote"
+  return "http://localhost:8080/quote"
 }
