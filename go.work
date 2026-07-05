@@ -21,6 +21,7 @@ use (
 	./examples/iterator
 	./examples/oop
 	./examples/oop/composition
+	./examples/profiling
 	./examples/recover
 	./examples/reflection-bench
 	./examples/share-memory-by-communicating
