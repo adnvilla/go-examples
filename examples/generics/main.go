@@ -69,8 +69,8 @@ type Option[T any] struct {
 func Some[T any](v T) Option[T] { return Option[T]{value: &v} }
 func None[T any]() Option[T]    { return Option[T]{} }
 
-func (o Option[T]) IsPresent() bool    { return o.value != nil }
-func (o Option[T]) Unwrap() T          { return *o.value }
+func (o Option[T]) IsPresent() bool { return o.value != nil }
+func (o Option[T]) Unwrap() T       { return *o.value }
 func (o Option[T]) OrElse(def T) T {
 	if o.value == nil {
 		return def
