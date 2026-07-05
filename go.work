@@ -15,4 +15,5 @@ use (
 	./examples/generics
 	./examples/http-client
 	./examples/http-server
+	./examples/inject
 )
