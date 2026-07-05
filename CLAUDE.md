@@ -9,22 +9,35 @@ A collection of standalone Go examples organized by topic (`examples/<topic>/`),
 ## Commands
 
 ```bash
-go build ./...                              # build everything
-go vet ./...                                # vet everything
-go test -race ./...                         # run all tests, race detector on
+make build                    # go build ./...
+make test                     # go test -race -count=1 ./...
+make vet                      # go vet ./...
+make lint                     # golangci-lint run ./... (requires golangci-lint v2 in PATH)
+make vuln                     # govulncheck ./... (requires govulncheck in PATH)
+make tidy                     # go mod tidy && go mod verify
+make run EXAMPLE=context      # go run ./examples/context/  — run a single example
+make ci                       # build + vet + test + lint, i.e. the full local pipeline before a PR
+make infra-up / infra-down    # docker compose up -d / down (see Infra table below)
+make help                     # list all targets
+```
+
+Raw `go` equivalents when you need finer control:
+
+```bash
 go test ./examples/<name>/...               # test a single example
 go test -run TestName ./examples/<name>/... # run a single test
 go test -fuzz=FuzzAdd ./examples/testing-patterns/   # fuzz test (runs until interrupted)
-go run ./examples/<name>/                   # run a single example
-go mod tidy                                 # sync go.mod/go.sum
-golangci-lint run ./...                     # lint (requires golangci-lint installed)
 ```
 
-Equivalent Makefile targets exist: `make build`, `make test`, `make vet`, `make tidy`, `make lint`.
+### CI enforces build, tidy, lint, and vulnerabilities — not just build/test
 
-### Formatting is enforced by a git hook, not CI
+`.github/workflows/build.yml` runs four independent jobs on push/PR to `master` (Go 1.24 + 1.25 matrix for the test job only):
+1. **test** — `go build`, `go vet`, `go test -race -count=1 ./...`
+2. **tidy** — runs `go mod tidy` and fails if `go.mod`/`go.sum` diverge from the committed version
+3. **lint** — `golangci-lint` (v2 config in `.golangci.yml`: `errcheck`, `govet` with all analyzers except `fieldalignment`, `staticcheck`, `unused`, `misspell`, `unconvert`, `gosec`, `bodyclose`, `noctx`, `rowserrcheck`). Several legacy examples (`benchmark`, `mysql`, `reflection-bench`, `dynamodb`, `protobuf`) have per-path `exclude-rules` in `.golangci.yml` for pre-context-API code — don't "fix" those without checking why the exclusion exists first.
+4. **security** — `govulncheck ./...`
 
-This repo uses `core.hooksPath githooks` (set up via `InitHooks.bat`, or manually with `git config core.hooksPath githooks`). The `pre-commit` hook rejects commits containing unformatted `.go` files — always run `gofmt -w` on changed files before committing. CI (`.github/workflows/build.yml`) only runs build/vet/test (matrix: Go 1.24 and 1.25) on push/PR to `master`; it does not check formatting or run the linter, so don't rely on CI to catch either.
+Run `make ci` locally before opening a PR; it mirrors the test+lint portion of CI. Formatting (`gofmt`) is additionally enforced locally by a pre-commit hook (`githooks/pre-commit`, wired via `git config core.hooksPath githooks` / `InitHooks.bat`) — CI itself does not check formatting, so always `gofmt -w` changed files before committing.
 
 ### Integration tests need Docker Compose services
 
@@ -42,6 +55,8 @@ Start what you need with `docker compose up -d [service]` (or all of them with n
 ## Architecture / conventions across examples
 
 - **One example = one directory = one concern.** Don't add cross-example shared packages — the point of this repo is that each folder is self-contained and can be read/run/copied independently. When adding a new example, create a new `examples/<topic>/` directory rather than extending an existing one, unless it's a direct variant of that topic.
-- **Package naming is inconsistent by design**: most examples are `package main` (directly runnable with `go run`), but a few are named packages meant to be imported/tested as libraries (e.g. `examples/pool` is `package pool`, `examples/benchmark` is `package benchmark`, `examples/typecast` is `package typecast`). Match the existing pattern in a directory rather than assuming `package main`.
+- **Two structural eras coexist.** Existing examples (all of them as of this writing) share the root `go.mod`/`go.sum` and are indexed only in the root `README.md` table. Going forward, **new** examples are standalone Go modules (own `go.mod`/`go.sum`/`Makefile`/full `README.md`, registered in the root `go.work` via `go work use ./examples/<name>`) per the standard in [CONTRIBUTING.md](CONTRIBUTING.md) — don't assume every example shares the root module, and don't migrate a legacy example to the new standard as a drive-by change. `go.work` currently only lists the root module (`use .`); it gains an entry each time a new-standard example is added.
+- **Package naming is inconsistent by design** among legacy examples: most are `package main` (directly runnable with `go run`), but a few are named packages meant to be imported/tested as libraries (e.g. `examples/pool` is `package pool`, `examples/benchmark` is `package benchmark`, `examples/typecast` is `package typecast`). Match the existing pattern in a directory rather than assuming `package main`.
 - **Generated code exists in-tree**: `examples/wire/wire_gen.go` is generated by `google/wire` from `examples/wire/wire.go` — don't hand-edit `wire_gen.go`; regenerate it if the providers change.
-- **README.md is the index.** It has a topic-organized table (Concurrency, Error Handling, HTTP, Language Features, Observability & Performance, Testing, Patterns & Design, Serialization, Cloud & Infrastructure, Standard Library) linking every example with a one-line description. When adding, removing, or renaming an example directory, update the corresponding table row in `README.md` and the Docker Compose service table if infra is involved.
+- **README.md is the cross-example index**, not per-example documentation. It has a topic-organized table (Concurrency, Error Handling, HTTP, Language Features, Observability & Performance, Testing, Patterns & Design, Serialization, Cloud & Infrastructure, Standard Library) linking every example with a one-line description. Every example — legacy or new-standard — gets a row here; new-standard examples additionally get their own full `README.md` (see CONTRIBUTING.md for required sections, category, and difficulty tagging). Update the Docker Compose service table too if infra is involved.
+- **Full example-authoring standard (one concept per example, error handling, `context.Context` usage, stdlib-first, naming/comments, determinism, PR checklist, etc.) lives in [CONTRIBUTING.md](CONTRIBUTING.md)** — read it before adding or substantially changing an example.
