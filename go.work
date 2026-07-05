@@ -16,4 +16,5 @@ use (
 	./examples/http-client
 	./examples/http-server
 	./examples/inject
+	./examples/iterator
 )
