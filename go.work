@@ -10,4 +10,5 @@ use (
 	./examples/context
 	./examples/embed
 	./examples/errors
+	./examples/flags
 )
