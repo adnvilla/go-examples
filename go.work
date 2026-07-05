@@ -20,4 +20,5 @@ use (
 	./examples/oop
 	./examples/oop/composition
 	./examples/recover
+	./examples/share-memory-by-communicating
 )
