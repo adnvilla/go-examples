@@ -18,10 +18,10 @@ import (
 )
 
 const (
-	redisAddr              = "localhost:6379"
-	queueTaskKey           = "queue:task:"
-	queueProcessedKey      = "queue:processed:"
-	workerTimeout          = 4 * time.Second
+	redisAddr         = "localhost:6379"
+	queueTaskKey      = "queue:task:"
+	queueProcessedKey = "queue:processed:"
+	workerTimeout     = 4 * time.Second
 )
 
 var redisClient *redis.Client
