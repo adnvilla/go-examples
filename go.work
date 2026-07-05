@@ -17,4 +17,5 @@ use (
 	./examples/http-server
 	./examples/inject
 	./examples/iterator
+	./examples/oop
 )
