@@ -23,4 +23,5 @@ use (
 	./examples/share-memory-by-communicating
 	./examples/slog
 	./examples/sync-primitives
+	./examples/testing
 )
