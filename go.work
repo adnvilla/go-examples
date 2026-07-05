@@ -16,6 +16,7 @@ use (
 	./examples/flags
 	./examples/functional-options
 	./examples/generics
+	./examples/gin
 	./examples/http-client
 	./examples/http-server
 	./examples/inject
