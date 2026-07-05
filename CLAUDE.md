@@ -52,6 +52,10 @@ This is a Go multi-module workspace. All commands run from the repo root.
   repeated on every check.
 - `make check EXAMPLE=<name>` runs build + vet + test + lint + fmt for one
   example in a single command.
+- NEVER prefix commands with `cd` to the repo root — you are already there.
+  Do not write `cd /Users/adnvilla/code/go-examples && ...`. The `cd` is
+  redundant and, when combined with `git`, blocks permission persistence
+  (git-hook safety guard). Run the command directly from the current directory.
 
 ### Validating an example (canonical flow)
 New example → `make use EXAMPLE=<name>` (once), then
