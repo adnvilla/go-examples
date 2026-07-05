@@ -3,7 +3,6 @@ module github.com/adnvilla/go-examples
 go 1.25.0
 
 require (
-	github.com/DataDog/datadog-go v4.8.3+incompatible
 	github.com/aws/aws-lambda-go v1.47.0
 	github.com/aws/aws-sdk-go v1.54.0
 	github.com/gin-gonic/gin v1.10.0
@@ -13,7 +12,6 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/Microsoft/go-winio v0.6.2 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect

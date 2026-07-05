@@ -20,6 +20,7 @@ use (
 	./examples/http-server
 	./examples/inject
 	./examples/iterator
+	./examples/metric
 	./examples/oop
 	./examples/oop/composition
 	./examples/pool
