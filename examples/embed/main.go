@@ -21,8 +21,8 @@ var configJSON []byte
 var staticFS embed.FS
 
 type appConfig struct {
-	Version      string            `json:"version"`
-	FeatureFlags map[string]bool   `json:"feature_flags"`
+	Version      string          `json:"version"`
+	FeatureFlags map[string]bool `json:"feature_flags"`
 }
 
 func main() {
