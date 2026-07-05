@@ -11,4 +11,5 @@ use (
 	./examples/embed
 	./examples/errors
 	./examples/flags
+	./examples/functional-options
 )
