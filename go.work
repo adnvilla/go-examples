@@ -24,6 +24,7 @@ use (
 	./examples/oop/composition
 	./examples/pool
 	./examples/profiling
+	./examples/protobuf
 	./examples/recover
 	./examples/reflection-bench
 	./examples/serialization

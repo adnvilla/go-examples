@@ -8,7 +8,6 @@ require (
 	github.com/aws/aws-sdk-go v1.54.0
 	github.com/gin-gonic/gin v1.10.0
 	github.com/go-sql-driver/mysql v1.8.1
-	github.com/golang/protobuf v1.5.4
 	github.com/redis/go-redis/v9 v9.21.0
 )
 
