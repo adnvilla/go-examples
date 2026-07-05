@@ -19,4 +19,5 @@ use (
 	./examples/iterator
 	./examples/oop
 	./examples/oop/composition
+	./examples/recover
 )
