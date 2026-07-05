@@ -8,4 +8,5 @@ use (
 	./examples/concurrency/worker-pool
 	./examples/config
 	./examples/context
+	./examples/embed
 )
