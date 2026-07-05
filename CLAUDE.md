@@ -31,31 +31,23 @@ go test -fuzz=FuzzAdd ./examples/testing-patterns/   # fuzz test (runs until int
 
 ## Running commands (IMPORTANT)
 
-This is a Go multi-module workspace. All commands run from the repo root.
+Run every command as a SEPARATE step. Do NOT chain commands with `&&`,
+`||`, `;`, or `|`. Each command must run on its own so it can be matched
+against the permission allowlist independently.
 
-- NEVER chain commands with `cd`. Do not run compound commands like
-  `cd examples/foo && go build ...`. Multiple directory changes in one
-  command trigger a permission prompt and cannot be persisted to the
-  allowlist. Run each step from the repo root instead.
-- Use the Makefile targets for validation — never raw chained `go`
-  commands. Run them as separate steps, one per line:
-  - `make build`
-  - `make vet`
-  - `make test`
-  - `make lint`
-  - `make fmt`
-- To scope any check to a single example, pass `EXAMPLE=<short-name>`:
-  `make build EXAMPLE=http-server` (omit `EXAMPLE` to run across the
-  whole workspace). This matches the existing `make run EXAMPLE=` convention.
-- Registering a NEW example is a one-time step: `make use EXAMPLE=<name>`
-  (wraps `go work use`). It is committed to `go.work` and must NOT be
-  repeated on every check.
-- `make check EXAMPLE=<name>` runs build + vet + test + lint + fmt for one
-  example in a single command.
-- NEVER prefix commands with `cd` to the repo root — you are already there.
-  Do not write `cd /Users/adnvilla/code/go-examples && ...`. The `cd` is
-  redundant and, when combined with `git`, blocks permission persistence
-  (git-hook safety guard). Run the command directly from the current directory.
+- NEVER chain commands. Run them one per line, as individual tool calls.
+  `go mod tidy` then `git diff`, NOT `go mod tidy && git diff`.
+- NEVER use `cd`. All commands run from the repo root, where you already
+  are. To scope to one example, pass the path as an argument
+  (`go build ./examples/foo/...`) or use the Makefile
+  (`make check EXAMPLE=foo`), never `cd examples/foo && ...`.
+- Chaining anything with `git` (e.g. `... && git diff`) triggers a
+  git-hook safety guard that forces manual approval and cannot be
+  persisted — another reason to keep commands separate.
+- For validation use the Makefile targets, one at a time:
+  `make build`, `make vet`, `make test`, `make lint`, `make fmt`
+  (append `EXAMPLE=<name>` to scope to one example). The Makefile
+  encapsulates any needed `cd` inside its recipes, so you never chain.
 
 ### Validating an example (canonical flow)
 New example → `make use EXAMPLE=<name>` (once), then

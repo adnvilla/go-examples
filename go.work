@@ -25,6 +25,7 @@ use (
 	./examples/profiling
 	./examples/recover
 	./examples/reflection-bench
+	./examples/serialization
 	./examples/share-memory-by-communicating
 	./examples/slog
 	./examples/sync-primitives
