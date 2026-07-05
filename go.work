@@ -22,6 +22,7 @@ use (
 	./examples/iterator
 	./examples/oop
 	./examples/oop/composition
+	./examples/pool
 	./examples/profiling
 	./examples/recover
 	./examples/reflection-bench
