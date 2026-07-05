@@ -29,6 +29,34 @@ go test -run TestName ./examples/<name>/... # run a single test
 go test -fuzz=FuzzAdd ./examples/testing-patterns/   # fuzz test (runs until interrupted)
 ```
 
+## Running commands (IMPORTANT)
+
+This is a Go multi-module workspace. All commands run from the repo root.
+
+- NEVER chain commands with `cd`. Do not run compound commands like
+  `cd examples/foo && go build ...`. Multiple directory changes in one
+  command trigger a permission prompt and cannot be persisted to the
+  allowlist. Run each step from the repo root instead.
+- Use the Makefile targets for validation — never raw chained `go`
+  commands. Run them as separate steps, one per line:
+  - `make build`
+  - `make vet`
+  - `make test`
+  - `make lint`
+  - `make fmt`
+- To scope any check to a single example, pass `EXAMPLE=<short-name>`:
+  `make build EXAMPLE=http-server` (omit `EXAMPLE` to run across the
+  whole workspace). This matches the existing `make run EXAMPLE=` convention.
+- Registering a NEW example is a one-time step: `make use EXAMPLE=<name>`
+  (wraps `go work use`). It is committed to `go.work` and must NOT be
+  repeated on every check.
+- `make check EXAMPLE=<name>` runs build + vet + test + lint + fmt for one
+  example in a single command.
+
+### Validating an example (canonical flow)
+New example → `make use EXAMPLE=<name>` (once), then
+`make check EXAMPLE=<name>`.
+
 ### CI enforces build, tidy, lint, and vulnerabilities — not just build/test
 
 `.github/workflows/build.yml` runs four independent jobs on push/PR to `master` (Go 1.24 + 1.25 matrix for the test job only):
