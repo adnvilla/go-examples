@@ -6,11 +6,8 @@ New examples are standalone Go modules, isolated from every other example and fr
 
 1. Create a directory under `examples/` with a lowercase, hyphen-separated name, then init its own module and register it with the workspace:
    ```bash
-   mkdir examples/my-topic
-   cd examples/my-topic
-   go mod init github.com/adnvilla/go-examples/examples/my-topic
-   cd ../..
-   go work use ./examples/my-topic
+   mkdir -p examples/my-topic && (cd examples/my-topic && go mod init github.com/adnvilla/go-examples/examples/my-topic)
+   make use EXAMPLE=my-topic
    ```
 
 2. One example = one primary concept (e.g. "Worker Pool", "Circuit Breaker", "Graceful Shutdown"). Don't combine unrelated concepts (e.g. Kafka + Postgres + retry + worker pool) into a single example — split into separate directories instead.
