@@ -7,4 +7,5 @@ use (
 	./examples/concurrency/scatter-gather
 	./examples/concurrency/worker-pool
 	./examples/config
+	./examples/context
 )
