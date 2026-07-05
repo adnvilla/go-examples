@@ -21,6 +21,7 @@ use (
 	./examples/oop
 	./examples/oop/composition
 	./examples/recover
+	./examples/reflection-bench
 	./examples/share-memory-by-communicating
 	./examples/slog
 	./examples/sync-primitives
