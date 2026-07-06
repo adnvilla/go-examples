@@ -4,6 +4,7 @@ use (
 	./examples/benchmark
 	./examples/channels
 	./examples/concurrency/fan-out-timeout
+	./examples/concurrency/pipeline
 	./examples/concurrency/scatter-gather
 	./examples/concurrency/worker-pool
 	./examples/config
