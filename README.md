@@ -83,6 +83,12 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 | [serialization](examples/serialization/) | Flexible JSON: field that is either an object or array |
 | [protobuf](examples/protobuf/) | Binary serialization with Protocol Buffers |
 
+### Security
+
+| Directory | Description |
+|-----------|-------------|
+| [crypto-basics](examples/crypto-basics/) | `sha256`, HMAC + constant-time compare, `crypto/rand` tokens, AES-GCM |
+
 ### Cloud & Infrastructure
 
 | Directory | Description |
