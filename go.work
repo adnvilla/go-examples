@@ -20,6 +20,7 @@ use (
 	./examples/graceful-shutdown-signals
 	./examples/http-client
 	./examples/http-server
+	./examples/httptest
 	./examples/inject
 	./examples/io-readers-writers
 	./examples/iterator
