@@ -55,7 +55,7 @@ Every example is a standalone Go module, isolated from every other example — t
    - Tests must be deterministic — no flaky tests, no unseeded randomness or timing-dependent assertions, unless the example is specifically about non-determinism.
    - If the example needs a real service (database, cache, queue), add a service entry to `docker-compose.yml` and document the requirement in the README.
 
-6. Register the example in the root `README.md` index table under the appropriate section — the root README stays the cross-example discovery index; the per-example `README.md` holds the depth.
+6. Register the example in the root `README.md` learning path, in the table matching its **Difficulty** tag, with its **Category** in the second column — placed where it fits pedagogically within the level, not appended at the end. The root README stays the cross-example discovery index; the per-example `README.md` holds the depth.
 
 7. Run the full CI pipeline locally before opening a PR:
    ```bash
