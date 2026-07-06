@@ -16,7 +16,7 @@ func TestHealthz(t *testing.T) {
 	t.Parallel()
 	mux := NewUserServer().Mux()
 
-	req := httptest.NewRequest(http.MethodGet, "/healthz", nil)
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/healthz", nil)
 	rec := httptest.NewRecorder()
 	mux.ServeHTTP(rec, req)
 
@@ -36,7 +36,7 @@ func TestCreateAndGetUser(t *testing.T) {
 	mux := NewUserServer().Mux()
 
 	// POST /users
-	req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(`{"name":"Grace"}`))
+	req := httptest.NewRequestWithContext(t.Context(), http.MethodPost, "/users", strings.NewReader(`{"name":"Grace"}`))
 	rec := httptest.NewRecorder()
 	mux.ServeHTTP(rec, req)
 
@@ -45,7 +45,7 @@ func TestCreateAndGetUser(t *testing.T) {
 	}
 
 	// GET /users/1 — the id assigned to the first created user
-	req = httptest.NewRequest(http.MethodGet, "/users/1", nil)
+	req = httptest.NewRequestWithContext(t.Context(), http.MethodGet, "/users/1", nil)
 	rec = httptest.NewRecorder()
 	mux.ServeHTTP(rec, req)
 
@@ -72,7 +72,7 @@ func TestCreateUserRejectsBadBody(t *testing.T) {
 			t.Parallel()
 			mux := NewUserServer().Mux()
 
-			req := httptest.NewRequest(http.MethodPost, "/users", strings.NewReader(tc.body))
+			req := httptest.NewRequestWithContext(t.Context(), http.MethodPost, "/users", strings.NewReader(tc.body))
 			rec := httptest.NewRecorder()
 			mux.ServeHTTP(rec, req)
 
