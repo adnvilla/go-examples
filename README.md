@@ -13,6 +13,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 | [concurrency/scatter-gather](examples/concurrency/scatter-gather/) | One goroutine per task, collect all results |
 | [concurrency/fan-out-timeout](examples/concurrency/fan-out-timeout/) | Per-worker deadline with `time.After` |
 | [concurrency/pipeline](examples/concurrency/pipeline/) | Staged channels, fan-in `merge`, cancellation without goroutine leaks |
+| [concurrency/rate-limiting](examples/concurrency/rate-limiting/) | `time.Ticker` vs `x/time/rate`: `Allow` to shed load, `Wait` to pace |
 | [errgroup](examples/errgroup/) | `errgroup.WithContext` vs manual WaitGroup; `SetLimit` for bounded concurrency |
 | [pool](examples/pool/) | Generic worker pool with per-task error tracking |
 | [graceful-shutdown-signals](examples/graceful-shutdown-signals/) | `signal.NotifyContext`: SIGINT/SIGTERM as context cancellation, drain with a deadline |
