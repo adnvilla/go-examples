@@ -9,13 +9,20 @@ import (
 )
 
 func main() {
-	// db, err := sql.Open("mysql", "user:password@/database")
-	// db, err := sql.Open("mysql", "user:password@tcp(localhost:5555)/dbname?tls=skip-verify&autocommit=true")
-	db, err := sql.Open("mysql", "id:password@tcp(your-amazonaws-uri.com:3306)/dbname")
+	// Matches this repo's docker-compose mysql service: root/secret@localhost:3306/examples.
+	db, err := sql.Open("mysql", "root:secret@tcp(localhost:3306)/examples")
 	if err != nil {
 		panic(err.Error()) // Just for example purpose. You should use proper error handling instead of panic
 	}
 	defer db.Close()
+
+	// Recreate the table on every run so the example is self-contained and repeatable.
+	if _, err := db.Exec("DROP TABLE IF EXISTS squareNum"); err != nil {
+		panic(err.Error())
+	}
+	if _, err := db.Exec("CREATE TABLE squareNum (number INT PRIMARY KEY, squareNumber INT)"); err != nil {
+		panic(err.Error())
+	}
 
 	// Prepare statement for inserting data
 	stmtIns, err := db.Prepare("INSERT INTO squareNum VALUES( ?, ? )") // ? = placeholder
@@ -25,14 +32,14 @@ func main() {
 	defer stmtIns.Close() // Close the statement when we leave main() / the program terminates
 
 	// Prepare statement for reading data
-	stmtOut, err := db.Prepare("SELECT squareNumber FROM squarenum WHERE number = ?")
+	stmtOut, err := db.Prepare("SELECT squareNumber FROM squareNum WHERE number = ?")
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
 	defer stmtOut.Close()
 
 	// Insert square numbers for 0-24 in the database
-	for i := 0; i < 25; i++ {
+	for i := range 25 {
 		_, err = stmtIns.Exec(i, (i * i)) // Insert tuples (i, i^2)
 		if err != nil {
 			panic(err.Error()) // proper error handling instead of panic in your app
@@ -46,12 +53,12 @@ func main() {
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
-	fmt.Printf("The square number of 13 is: %d", squareNum)
+	fmt.Printf("The square number of 13 is: %d\n", squareNum)
 
 	// Query another number.. 1 maybe?
 	err = stmtOut.QueryRow(1).Scan(&squareNum) // WHERE number = 1
 	if err != nil {
 		panic(err.Error()) // proper error handling instead of panic in your app
 	}
-	fmt.Printf("The square number of 1 is: %d", squareNum)
+	fmt.Printf("The square number of 1 is: %d\n", squareNum)
 }
