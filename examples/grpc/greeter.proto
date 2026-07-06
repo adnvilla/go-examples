@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package greeter.v1;
+
+option go_package = "github.com/adnvilla/go-examples/examples/grpc/greeterpb";
+
+// Greeter demonstrates the two most common RPC shapes: unary and
+// server-streaming.
+service Greeter {
+  // Greet is a unary RPC: one request, one reply.
+  rpc Greet(GreetRequest) returns (GreetReply);
+
+  // Countdown is a server-streaming RPC: one request, many replies.
+  rpc Countdown(CountdownRequest) returns (stream CountdownReply);
+}
+
+message GreetRequest {
+  string name = 1;
+}
+
+message GreetReply {
+  string message = 1;
+}
+
+message CountdownRequest {
+  int32 from = 1;
+}
+
+message CountdownReply {
+  int32 value = 1;
+}

@@ -18,6 +18,7 @@ use (
 	./examples/generics
 	./examples/gin
 	./examples/graceful-shutdown-signals
+	./examples/grpc
 	./examples/http-client
 	./examples/http-server
 	./examples/httptest

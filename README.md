@@ -32,6 +32,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 | [http-server](examples/http-server/) | stdlib HTTP server with middleware chain and graceful shutdown |
 | [http-client](examples/http-client/) | HTTP client with retries, exponential backoff, and context cancellation |
 | [gin](examples/gin/) | Minimal API with Gin framework |
+| [grpc](examples/grpc/) | Unary + server-streaming RPCs from one `.proto`; status codes; `bufconn` tests |
 | [redis](examples/redis/) | Task queue over Redis with Gin (go-redis v9) |
 
 ### Language Features
