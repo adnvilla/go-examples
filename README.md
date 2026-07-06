@@ -97,27 +97,33 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 
 ## Running an example
 
+Every example is its own Go module (see [CONTRIBUTING.md](CONTRIBUTING.md)), so there's no single root module to build against. Use the Makefile:
+
 ```bash
-go run ./examples/context/
-go run ./examples/generics/
-go run ./examples/http-server/
-go run ./examples/concurrency/worker-pool/
+make run EXAMPLE=context
+make run EXAMPLE=generics
+make run EXAMPLE=http-server
+make run EXAMPLE=concurrency/worker-pool
 ```
+
+or `go run .` from inside the example's own directory.
 
 ## Tests
 
 ```bash
-# All tests with race detector
-go test -race ./...
+# Every example, in its own module
+make test
 
 # A specific example
-go test ./examples/testing-patterns/...
+make test EXAMPLE=testing-patterns
+# or, from inside that directory:
+go test -race -count=1 ./...
 
 # Fuzz test (runs until interrupted)
 go test -fuzz=FuzzAdd ./examples/testing-patterns/
 
 # DynamoDB integration tests (requires the dynamodb service below)
-DYNAMODB_LOCAL=1 go test ./examples/dynamodb/...
+DYNAMODB_LOCAL=1 AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy make test EXAMPLE=dynamodb
 ```
 
 ## Infrastructure (Docker Compose)

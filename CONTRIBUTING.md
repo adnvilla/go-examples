@@ -2,7 +2,7 @@
 
 ## Adding a new example
 
-New examples are standalone Go modules, isolated from every other example and from the root module. This is a deliberate departure from the pre-existing examples (which still share the root `go.mod` — see "Legacy examples" below): a new example must be copy-pasteable on its own, with its own dependency graph.
+Every example is a standalone Go module, isolated from every other example — the repo root itself has no Go packages, only `go.work` (listing every example module) and shared tooling. A new example must be copy-pasteable on its own, with its own dependency graph.
 
 1. Create a directory under `examples/` with a lowercase, hyphen-separated name, then init its own module and register it with the workspace:
    ```bash
@@ -62,17 +62,13 @@ New examples are standalone Go modules, isolated from every other example and fr
    make ci
    ```
 
-### Legacy examples
-
-Most existing examples (everything already in the repo before this standard) still live in the shared root module (`go.mod` at the repo root, no `go.work use` entry, no per-example `README.md`/`Makefile`). Don't migrate an existing example to the standalone-module standard as a side effect of an unrelated change — migration is its own PR. Small fixes/updates to a legacy example follow the existing shared-module conventions (root `go build ./...`, `go test ./...`, edit the root `README.md` table entry).
-
 ### Pull request checklist
 
 Before opening a PR, verify:
 - The example teaches one primary concept.
 - It compiles and runs successfully (`go run .` or `make run`).
 - Tests pass and are deterministic.
-- `README.md` is complete (or the root table entry is updated, for legacy examples).
+- `README.md` is complete, including the root `README.md` index table entry.
 - Expected output is documented.
 - Code is idiomatic Go and every dependency is justified.
 - `make lint` and `gofmt` pass.
@@ -100,7 +96,7 @@ make infra-up
   chmod +x .git/hooks/pre-commit
   ```
 - The CI pipeline runs `golangci-lint`. Run `make lint` locally to catch issues before pushing.
-- Use `//nolint:<linter>` with a comment explaining **why** only when suppressing a false-positive in legacy code. New examples should not need nolint directives.
+- Use `//nolint:<linter>` with a comment explaining **why** only when suppressing a false-positive on pre-existing or intentionally-legacy code (e.g. an example predating `context.Context` support, or using a deprecated SDK on purpose). New examples should not need nolint directives.
 
 ## Pull requests
 
