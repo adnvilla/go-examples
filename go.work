@@ -20,6 +20,7 @@ use (
 	./examples/http-client
 	./examples/http-server
 	./examples/inject
+	./examples/io-readers-writers
 	./examples/iterator
 	./examples/lambda
 	./examples/metric

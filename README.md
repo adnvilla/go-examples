@@ -88,6 +88,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 
 | Directory | Description |
 |-----------|-------------|
+| [io-readers-writers](examples/io-readers-writers/) | `io.Reader`/`io.Writer` contract and stream combinators (`Copy`, `TeeReader`, `MultiWriter`, `Pipe`) |
 | [config](examples/config/) | Reading JSON config with `encoding/json` |
 | [datetime-parse](examples/datetime-parse/) | Parsing dates in multiple formats |
 | [flags](examples/flags/) | Command-line flags with `flag` |
