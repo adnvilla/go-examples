@@ -81,7 +81,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 
 | Directory | Description |
 |-----------|-------------|
-| [dynamodb](examples/dynamodb/) | DynamoDB CRUD with AWS SDK v1 |
+| [dynamodb](examples/dynamodb/) | DynamoDB CRUD with AWS SDK v2 |
 | [lambda](examples/lambda/) | AWS Lambda function |
 | [mysql](examples/mysql/) | MySQL connection and queries |
 
@@ -123,7 +123,7 @@ go test -race -count=1 ./...
 go test -fuzz=FuzzAdd ./examples/testing-patterns/
 
 # DynamoDB integration tests (requires the dynamodb service below)
-DYNAMODB_LOCAL=1 AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy make test EXAMPLE=dynamodb
+DYNAMODB_LOCAL=1 make test EXAMPLE=dynamodb
 ```
 
 ## Infrastructure (Docker Compose)

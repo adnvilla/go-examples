@@ -43,10 +43,6 @@ issues:
     - path: "examples/reflection-bench/"
       linters: [errcheck, unused]
 
-    # Legacy dynamodb: unused err variables in test setup helpers
-    - path: "examples/dynamodb/"
-      linters: [staticcheck]
-
     # Protobuf: generated file uses deprecated golang/protobuf wrapper (acceptable — needs protoc to regenerate)
     - path: "examples/protobuf/"
       linters: [staticcheck]

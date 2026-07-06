@@ -6,7 +6,7 @@ infra-up:
 ## test: run the CRUD integration tests against DynamoDB Local (requires infra-up)
 .PHONY: test
 test:
-	DYNAMODB_LOCAL=1 AWS_ACCESS_KEY_ID=dummy AWS_SECRET_ACCESS_KEY=dummy go test -race -count=1 -v ./...
+	DYNAMODB_LOCAL=1 go test -race -count=1 -v ./...
 
 ## run: this example has no main-package logic to run; see `make test` for the demonstration
 .PHONY: run

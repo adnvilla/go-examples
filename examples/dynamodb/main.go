@@ -1,20 +1,20 @@
-//nolint:staticcheck // aws-sdk-go v1 is deprecated in favor of v2; this is a legacy example
 package main
 
 import (
-	"github.com/aws/aws-sdk-go/service/dynamodb/expression"
+	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/expression"
 )
 
 func main() {
 
 }
 
+// FilterGreaterThan builds a filter condition for "name > value".
 func FilterGreaterThan(name string, value any) expression.ConditionBuilder {
 	return expression.Name(name).GreaterThan(expression.Value(value))
 }
 
+// ProjectionNames builds a projection listing the attributes a Scan should return.
 func ProjectionNames(names ...string) expression.ProjectionBuilder {
-
 	var nameBuilder []expression.NameBuilder
 	for _, name := range names {
 		nameBuilder = append(nameBuilder, expression.Name(name))
