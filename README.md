@@ -101,6 +101,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 | [datetime-parse](examples/datetime-parse/) | Parsing dates in multiple formats |
 | [flags](examples/flags/) | Command-line flags with `flag` |
 | [os-exec](examples/os-exec/) | Run external processes: capture output, stdin, exit codes, env, kill on timeout |
+| [templates](examples/templates/) | `text/template` vs `html/template`: actions, FuncMap, composition, auto-escaping |
 
 ---
 

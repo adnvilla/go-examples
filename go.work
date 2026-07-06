@@ -46,6 +46,7 @@ use (
 	./examples/slog
 	./examples/sqlite
 	./examples/sync-primitives
+	./examples/templates
 	./examples/testing-patterns
 	./examples/typecast
 	./examples/wire
