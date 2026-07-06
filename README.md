@@ -51,8 +51,8 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 | [metric](examples/metric/) | StatsD metrics to Datadog |
 | [profiling](examples/profiling/) | CPU/memory profiling with `pkg/profile` |
 | [benchmark](examples/benchmark/) | Benchmarks with `testing.B` |
-| [reflection-bench](examples/reflection-bench/) | type switch vs type assertion vs interface |
-| [typecast](examples/typecast/) | Benchmark: dispatch strategies compared |
+| [reflection-bench](examples/reflection-bench/) | Benchmark: `reflect`-based slice construction vs plain `append`, with optional pprof profiles |
+| [typecast](examples/typecast/) | Benchmark: dispatch strategies compared (method call, interface, type switch, type assertion) |
 
 ### Testing
 
