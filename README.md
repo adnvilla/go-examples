@@ -60,6 +60,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 | Directory | Description |
 |-----------|-------------|
 | [testing-patterns](examples/testing-patterns/) | Table-driven tests, `t.Parallel`, subtests, fuzz testing, `TestMain` |
+| [httptest](examples/httptest/) | Handler tests with `httptest.NewRecorder`, client tests with `httptest.NewServer` |
 
 ### Patterns & Design
 
