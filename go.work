@@ -23,6 +23,7 @@ use (
 	./examples/iterator
 	./examples/lambda
 	./examples/metric
+	./examples/mysql
 	./examples/oop
 	./examples/oop/composition
 	./examples/pool
