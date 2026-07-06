@@ -2,7 +2,7 @@ module github.com/adnvilla/go-examples
 
 go 1.25.0
 
-require github.com/aws/aws-sdk-go v1.54.0
+require github.com/aws/aws-sdk-go v1.55.8
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
