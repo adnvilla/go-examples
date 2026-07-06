@@ -61,6 +61,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 |-----------|-------------|
 | [testing-patterns](examples/testing-patterns/) | Table-driven tests, `t.Parallel`, subtests, fuzz testing, `TestMain` |
 | [httptest](examples/httptest/) | Handler tests with `httptest.NewRecorder`, client tests with `httptest.NewServer` |
+| [mocking](examples/mocking/) | Hand-rolled test doubles via interfaces: stub, mock, fake, func adapter |
 
 ### Patterns & Design
 
