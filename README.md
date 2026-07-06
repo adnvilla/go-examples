@@ -88,6 +88,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 | [dynamodb](examples/dynamodb/) | DynamoDB CRUD with AWS SDK v2 |
 | [lambda](examples/lambda/) | AWS Lambda function |
 | [mysql](examples/mysql/) | MySQL connection and queries |
+| [sqlite](examples/sqlite/) | `database/sql` fundamentals on embedded SQLite (pure Go, no Docker) |
 
 ### Standard Library
 

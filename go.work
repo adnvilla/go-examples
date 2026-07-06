@@ -41,6 +41,7 @@ use (
 	./examples/serialization
 	./examples/share-memory-by-communicating
 	./examples/slog
+	./examples/sqlite
 	./examples/sync-primitives
 	./examples/testing-patterns
 	./examples/typecast
