@@ -58,8 +58,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 
 | Directory | Description |
 |-----------|-------------|
-| [testing-patterns](examples/testing-patterns/) | Table-driven tests, `t.Parallel`, subtests, fuzz testing |
-| [testing](examples/testing/) | Basic unit tests |
+| [testing-patterns](examples/testing-patterns/) | Table-driven tests, `t.Parallel`, subtests, fuzz testing, `TestMain` |
 
 ### Patterns & Design
 
