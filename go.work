@@ -33,6 +33,7 @@ use (
 	./examples/mysql
 	./examples/oop
 	./examples/oop/composition
+	./examples/otel
 	./examples/pool
 	./examples/profiling
 	./examples/protobuf

@@ -73,6 +73,7 @@ Some examples talk to a real backing service rather than a mock:
 | MySQL 8 | 3306 | `examples/mysql` | user `root`, password `secret`, db `examples` |
 | DynamoDB Local | 8000 | `examples/dynamodb` | tests require `DYNAMODB_LOCAL=1` env var set |
 | StatsD | 8125/udp | `examples/metric` | prints received metrics to stdout |
+| Jaeger | 16686 (UI), 4318/4317 (OTLP) | `examples/otel` | optional — the example defaults to a stdout exporter and only needs Jaeger when `OTEL_EXPORTER_OTLP_ENDPOINT` is set |
 
 Start what you need with `docker compose up -d [service]` (or all of them with no service name) before running tests/examples that depend on them; `docker compose down` to tear down. Without the service running, those examples' tests will fail on connection errors, not skip.
 
