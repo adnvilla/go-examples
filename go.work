@@ -26,6 +26,7 @@ use (
 	./examples/iterator
 	./examples/lambda
 	./examples/metric
+	./examples/mocking
 	./examples/mysql
 	./examples/oop
 	./examples/oop/composition
