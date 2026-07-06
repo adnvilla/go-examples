@@ -1,3 +1,4 @@
+//nolint:staticcheck // aws-sdk-go v1 is deprecated in favor of v2; this is a legacy example
 package main
 
 import (
@@ -8,7 +9,7 @@ func main() {
 
 }
 
-func FilterGreaterThan(name string, value interface{}) expression.ConditionBuilder {
+func FilterGreaterThan(name string, value any) expression.ConditionBuilder {
 	return expression.Name(name).GreaterThan(expression.Value(value))
 }
 
