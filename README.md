@@ -53,6 +53,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 |-----------|-------------|
 | [slog](examples/slog/) | Structured logging with `log/slog` (Go 1.21) |
 | [metric](examples/metric/) | StatsD metrics to Datadog |
+| [otel](examples/otel/) | OpenTelemetry tracing: nested spans, attributes, error recording; stdout or Jaeger |
 | [profiling](examples/profiling/) | CPU/memory profiling with `pkg/profile` |
 | [benchmark](examples/benchmark/) | Benchmarks with `testing.B` |
 | [reflection-bench](examples/reflection-bench/) | Benchmark: `reflect`-based slice construction vs plain `append`, with optional pprof profiles |
@@ -148,6 +149,7 @@ docker compose up -d redis          # examples/redis
 docker compose up -d mysql          # examples/mysql
 docker compose up -d dynamodb       # examples/dynamodb
 docker compose up -d statsd         # examples/metric
+docker compose up -d jaeger         # examples/otel (optional — it runs standalone too)
 ```
 
 Stop and clean up:
@@ -162,3 +164,4 @@ docker compose down
 | MySQL 8 | `3306` | `examples/mysql` — user `root`, password `secret`, db `examples` |
 | DynamoDB Local | `8000` | `examples/dynamodb` — set `DYNAMODB_LOCAL=1` for tests |
 | StatsD | `8125/udp` | `examples/metric` |
+| Jaeger | `16686` (UI), `4318`/`4317` (OTLP) | `examples/otel` — set `OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318` |

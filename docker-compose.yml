@@ -53,3 +53,16 @@ services:
     ports:
       - "8125:8125/udp"
       - "8126:8126"
+
+  # ── Jaeger (otel example) ──────────────────────────────────────────────────
+  # Used by: examples/otel
+  # UI: http://localhost:16686 — OTLP ingest: 4318 (HTTP), 4317 (gRPC)
+  # Run the example with OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    environment:
+      COLLECTOR_OTLP_ENABLED: "true"
+    ports:
+      - "16686:16686"
+      - "4317:4317"
+      - "4318:4318"
