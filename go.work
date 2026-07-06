@@ -17,6 +17,7 @@ use (
 	./examples/functional-options
 	./examples/generics
 	./examples/gin
+	./examples/graceful-shutdown-signals
 	./examples/http-client
 	./examples/http-server
 	./examples/inject

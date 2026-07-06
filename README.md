@@ -14,6 +14,7 @@ A collection of Go examples organized by topic. Requires Go 1.24+.
 | [concurrency/fan-out-timeout](examples/concurrency/fan-out-timeout/) | Per-worker deadline with `time.After` |
 | [errgroup](examples/errgroup/) | `errgroup.WithContext` vs manual WaitGroup; `SetLimit` for bounded concurrency |
 | [pool](examples/pool/) | Generic worker pool with per-task error tracking |
+| [graceful-shutdown-signals](examples/graceful-shutdown-signals/) | `signal.NotifyContext`: SIGINT/SIGTERM as context cancellation, drain with a deadline |
 | [share-memory-by-communicating](examples/share-memory-by-communicating/) | URL poller via channels — from the Go blog |
 | [sync-primitives](examples/sync-primitives/) | `sync.Once`, `sync.Map`, and `atomic` operations |
 
