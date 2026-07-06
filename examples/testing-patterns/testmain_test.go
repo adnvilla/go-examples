@@ -6,13 +6,11 @@ import (
 	"testing"
 )
 
-func TestSum(t *testing.T) {
-	total := Sum(5, 5)
-	if total != 10 {
-		t.Errorf("Sum was incorrect, got: %d, want: %d.", total, 10)
-	}
-}
-
+// TestMain replaces the default test runner for this package — the place for
+// package-level setup/teardown around m.Run(). Here it demonstrates gating on
+// coverage, a pattern with real caveats: testing.CoverMode() is only non-empty
+// when tests run with -cover, and testing.Coverage() doesn't necessarily match
+// the percentage `go test -cover` reports (see README Common Pitfalls).
 func TestMain(m *testing.M) {
 	// call flag.Parse() here if TestMain uses flags
 	rc := m.Run()
