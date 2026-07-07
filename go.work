@@ -42,6 +42,7 @@ use (
 	./examples/otel
 	./examples/otel-propagation
 	./examples/outbox-pattern
+	./examples/pgo
 	./examples/pool
 	./examples/postgres
 	./examples/profiling
