@@ -3,6 +3,7 @@ go 1.25.0
 use (
 	./examples/benchmark
 	./examples/channels
+	./examples/circuit-breaker
 	./examples/concurrency/fan-out-timeout
 	./examples/concurrency/pipeline
 	./examples/concurrency/rate-limiting

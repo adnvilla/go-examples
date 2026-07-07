@@ -68,6 +68,7 @@ Every example carries a **Category** and a **Difficulty** tag (Beginner / Interm
 
 | Example | Category | Description |
 |---------|----------|-------------|
+| [circuit-breaker](examples/circuit-breaker/) | Patterns & Design | Hand-rolled breaker: closed/open/half-open, fail-fast, probe quota, fake-clock tests |
 | [redis](examples/redis/) | Cloud & Infrastructure | Task queue over Redis with Gin (go-redis v9) |
 | [dynamodb](examples/dynamodb/) | Cloud & Infrastructure | DynamoDB CRUD with AWS SDK v2 |
 
