@@ -49,6 +49,16 @@ against the permission allowlist independently.
   (append `EXAMPLE=<name>` to scope to one example). The Makefile
   encapsulates any needed `cd` inside its recipes, so you never chain.
 
+### Editing files
+
+- Use the built-in Edit tool to modify source files, NOT shell commands
+  like `sed -i`, `awk`, or `perl -i`. The Edit tool shows a reviewable
+  diff, respects the permission mode, and won't silently corrupt code on
+  a mismatched pattern.
+- Reserve `sed`/`awk` for read-only text transformations piped to stdout
+  (e.g. inspecting or filtering output), never for in-place file edits
+  (`-i`) on code.
+
 ### Validating an example (canonical flow)
 New example → `make use EXAMPLE=<name>` (once), then
 `make check EXAMPLE=<name>`.
