@@ -16,7 +16,7 @@ Quantify the cost of `reflect`-based slice construction versus a plain `append` 
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

@@ -16,7 +16,7 @@ Show what type parameters (Go 1.18+) buy you: collection functions (`Map`/`Filte
 
 ## Prerequisites
 
-- Go 1.24+ (generics require Go 1.18+; this repo targets 1.25)
+- Go 1.25+ (generics require Go 1.18+; this repo targets 1.25)
 - No external services or environment variables required
 
 ## Project Structure

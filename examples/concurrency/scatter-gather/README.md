@@ -16,7 +16,7 @@ Contrast with the [worker-pool](../worker-pool/) pattern: instead of a fixed num
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

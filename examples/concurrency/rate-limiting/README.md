@@ -17,7 +17,7 @@ Show the two standard ways to rate-limit in Go and when each fits: a `time.Ticke
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required — the single dependency (`golang.org/x/time`) is the canonical rate-limiting package and the thing being taught
 
 ## Project Structure

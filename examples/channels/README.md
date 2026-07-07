@@ -17,7 +17,7 @@ Show the minimal pattern for one goroutine producing values and another consumin
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

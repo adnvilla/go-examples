@@ -15,7 +15,7 @@ Show the minimal pattern for reading a JSON configuration file from disk into a 
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services; reads `config.json` from its own directory
 
 ## Project Structure

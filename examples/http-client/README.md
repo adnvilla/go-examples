@@ -18,7 +18,7 @@ Show a production-shaped HTTP client built entirely on the standard library: per
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - **Internet access** — this example makes a real GET request to `https://jsonplaceholder.typicode.com/posts/1`, a public test API. No other setup required.
 
 ## Project Structure

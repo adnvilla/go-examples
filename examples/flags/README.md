@@ -16,7 +16,7 @@ Show the standard-library `flag` package: declaring string/int/bool flags (two d
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

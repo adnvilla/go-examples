@@ -17,7 +17,7 @@ The classic example from the [Go Blog post of the same name](https://go.dev/blog
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - **Internet access** — polls `google.com`, `golang.org`, and `blog.golang.org` over real HTTP
 - Runs forever until interrupted; there is no built-in exit condition
 

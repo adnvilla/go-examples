@@ -19,7 +19,7 @@ Show a gRPC service end to end from a single `.proto` contract: a unary RPC, a s
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - Nothing extra to *run* it — the generated code is committed
 - To *regenerate* after editing `greeter.proto`: `protoc` plus both Go plugins on `PATH`:
   ```bash

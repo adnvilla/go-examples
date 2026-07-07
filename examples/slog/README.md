@@ -17,7 +17,7 @@ Show structured logging with the standard library's `log/slog` (Go 1.21+): key-v
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

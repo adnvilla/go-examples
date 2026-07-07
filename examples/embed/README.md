@@ -16,7 +16,7 @@ Show the three shapes of `//go:embed`: a single file as a `string`, a single fil
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

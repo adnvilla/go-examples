@@ -15,7 +15,7 @@ Show the minimal way to add CPU profiling to a Go program using [`github.com/pkg
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 - To render the profile as a PDF/graph: [Graphviz](https://www.graphviz.org/download/) installed and on `PATH`
 

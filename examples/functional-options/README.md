@@ -16,7 +16,7 @@ Show how to configure a struct with sensible defaults, letting callers override 
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

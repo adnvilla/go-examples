@@ -16,7 +16,7 @@ Show idiomatic Go dependency injection: passing interfaces into constructors exp
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

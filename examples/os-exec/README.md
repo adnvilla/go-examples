@@ -18,7 +18,7 @@ Show the five things every program that shells out needs from `os/exec`: capturi
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - A Unix-like system (`echo`, `tr`, `sh`, `sleep` on `PATH` — macOS and Linux both qualify; this matches the repo's CI)
 
 ## Project Structure

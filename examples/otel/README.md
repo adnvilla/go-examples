@@ -19,7 +19,7 @@ By default the spans print to stdout, so the example runs with **zero infrastruc
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - Nothing for the default run (stdout exporter)
 - For the Jaeger run: Docker Compose (`docker compose up -d jaeger` or `make infra-up` from this directory)
 - Dependencies justified: the `go.opentelemetry.io/otel` SDK and exporters are the topic being taught

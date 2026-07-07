@@ -17,7 +17,7 @@ Show a Redis-backed task queue: an HTTP endpoint enqueues jobs and blocks waitin
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - A running Redis instance (this repo's `docker-compose.yml` provides one on `localhost:6379`):
   ```bash
   docker compose up -d redis

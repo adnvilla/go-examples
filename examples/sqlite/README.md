@@ -18,7 +18,7 @@ Show the `database/sql` fundamentals — parameterized `Exec`, the `rows.Next`/`
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services, no CGo toolchain, no environment variables — the single dependency is justified because SQLite itself is the topic and `modernc.org/sqlite` is the canonical pure-Go driver
 
 ## Project Structure

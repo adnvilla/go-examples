@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-A collection of standalone Go examples organized by topic (`examples/<topic>/`), each demonstrating one Go feature, pattern, or library integration. There is no shared application, and no shared root module either — every example directory is its own independent Go module (own `go.mod`/`go.sum`), most `package main` (runnable via `go run .`), a few named packages meant to be imported/tested as libraries. The repo root itself has no Go packages; it only holds `go.work` (the workspace listing every example module) and shared tooling (`Makefile`, `.golangci.yml`, `docker-compose.yml`). Requires Go 1.24+ (each module targets `go 1.25.0`).
+A collection of standalone Go examples organized by topic (`examples/<topic>/`), each demonstrating one Go feature, pattern, or library integration. There is no shared application, and no shared root module either — every example directory is its own independent Go module (own `go.mod`/`go.sum`), most `package main` (runnable via `go run .`), a few named packages meant to be imported/tested as libraries. The repo root itself has no Go packages; it only holds `go.work` (the workspace listing every example module) and shared tooling (`Makefile`, `.golangci.yml`, `docker-compose.yml`). Requires Go 1.25+ (each module targets `go 1.25.0`; CI also tests Go 1.26).
 
 ## Commands
 
@@ -55,7 +55,7 @@ New example → `make use EXAMPLE=<name>` (once), then
 
 ### CI enforces build, tidy, lint, and vulnerabilities — not just build/test
 
-`.github/workflows/build.yml` runs four independent jobs on push/PR to `master` (Go 1.24 + 1.25 matrix for the test job only):
+`.github/workflows/build.yml` runs four independent jobs on push/PR to `master` (Go 1.25 + 1.26 matrix for the test job only; the other jobs run on 1.26):
 1. **test** — `go build`, `go vet`, `go test -race -count=1 ./...`
 2. **tidy** — runs `go mod tidy` and fails if `go.mod`/`go.sum` diverge from the committed version
 3. **lint** — `golangci-lint` (v2 config in `.golangci.yml`: `errcheck`, `govet` with all analyzers except `fieldalignment`, `staticcheck`, `unused`, `misspell`, `unconvert`, `gosec`, `bodyclose`, `noctx`, `rowserrcheck`). Several examples (`benchmark`, `mysql`, `reflection-bench`, `protobuf`) have per-path `exclude-rules` in `.golangci.yml` for pre-context-API or deprecated-SDK code predating this repo's current conventions — don't "fix" those without checking why the exclusion exists first. These path-based exclude-rules are resolved relative to the repo root regardless of each example's own module boundary, so they keep working even though every example is its own module.
