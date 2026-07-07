@@ -29,6 +29,22 @@ services:
       timeout: 5s
       retries: 10
 
+  # ── PostgreSQL ─────────────────────────────────────────────────────────────
+  # Used by: examples/postgres
+  # Connect: localhost:5432, user=postgres password=secret database=examples
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: examples
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d examples"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
   # ── DynamoDB Local ─────────────────────────────────────────────────────────
   # Used by: examples/dynamodb
   # Connect: http://localhost:8000

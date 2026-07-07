@@ -71,6 +71,7 @@ Every example carries a **Category** and a **Difficulty** tag (Beginner / Interm
 | [circuit-breaker](examples/circuit-breaker/) | Patterns & Design | Hand-rolled breaker: closed/open/half-open, fail-fast, probe quota, fake-clock tests |
 | [grpc-advanced](examples/grpc-advanced/) | HTTP | Interceptors (auth via metadata), bidirectional streaming, deadline propagation |
 | [distributed-lock](examples/distributed-lock/) | Cloud & Infrastructure | Redis lock: `SET NX PX`, owner-only release (Lua), lease renewal, fencing tokens |
+| [postgres](examples/postgres/) | Cloud & Infrastructure | pgx: write skew live under read committed vs serializable (40001 + retry), LISTEN/NOTIFY |
 | [redis](examples/redis/) | Cloud & Infrastructure | Task queue over Redis with Gin (go-redis v9) |
 | [dynamodb](examples/dynamodb/) | Cloud & Infrastructure | DynamoDB CRUD with AWS SDK v2 |
 
@@ -120,6 +121,7 @@ Or bring up only what you need:
 ```bash
 docker compose up -d redis          # examples/redis, examples/distributed-lock
 docker compose up -d mysql          # examples/mysql
+docker compose up -d postgres       # examples/postgres
 docker compose up -d dynamodb       # examples/dynamodb
 docker compose up -d statsd         # examples/metric
 docker compose up -d jaeger         # examples/otel (optional — it runs standalone too)
@@ -135,6 +137,7 @@ docker compose down
 |---------|------|---------|
 | Redis 7 | `6379` | `examples/redis`, `examples/distributed-lock` — set `REDIS_LOCAL=1` for the lock tests |
 | MySQL 8 | `3306` | `examples/mysql` — user `root`, password `secret`, db `examples` |
+| PostgreSQL 16 | `5432` | `examples/postgres` — user `postgres`, password `secret`, db `examples`; set `POSTGRES_LOCAL=1` for tests |
 | DynamoDB Local | `8000` | `examples/dynamodb` — set `DYNAMODB_LOCAL=1` for tests |
 | StatsD | `8125/udp` | `examples/metric` |
 | Jaeger | `16686` (UI), `4318`/`4317` (OTLP) | `examples/otel` — set `OTEL_EXPORTER_OTLP_ENDPOINT=http://localhost:4318` |
