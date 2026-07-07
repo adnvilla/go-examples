@@ -73,6 +73,7 @@ Every example carries a **Category** and a **Difficulty** tag (Beginner / Interm
 | [distributed-lock](examples/distributed-lock/) | Cloud & Infrastructure | Redis lock: `SET NX PX`, owner-only release (Lua), lease renewal, fencing tokens |
 | [postgres](examples/postgres/) | Cloud & Infrastructure | pgx: write skew live under read committed vs serializable (40001 + retry), LISTEN/NOTIFY |
 | [kafka](examples/kafka/) | Messaging | Keyed producer (key→partition), consumer group at-least-once, offset resume on restart |
+| [outbox-pattern](examples/outbox-pattern/) | Architecture | Transactional outbox: dual-write bug, atomic state+event, relay, at-least-once + dedupe |
 | [testcontainers](examples/testcontainers/) | Testing | Tests that own their infra: throwaway Postgres per test, wait strategies, Ryuk cleanup |
 | [redis](examples/redis/) | Cloud & Infrastructure | Task queue over Redis with Gin (go-redis v9) |
 | [dynamodb](examples/dynamodb/) | Cloud & Infrastructure | DynamoDB CRUD with AWS SDK v2 |
