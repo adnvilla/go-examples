@@ -23,6 +23,7 @@ use (
 	./examples/gin
 	./examples/graceful-shutdown-signals
 	./examples/grpc
+	./examples/grpc-advanced
 	./examples/http-client
 	./examples/http-server
 	./examples/httptest

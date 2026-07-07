@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package echo.v1;
+
+option go_package = "github.com/adnvilla/go-examples/examples/grpc-advanced/echopb";
+
+// Echo exercises the advanced client/server machinery: interceptors,
+// bidirectional streaming, and deadline propagation.
+service Echo {
+  // UnaryEcho replies once; the server enforces auth via an interceptor and
+  // honors the client's deadline.
+  rpc UnaryEcho(EchoRequest) returns (EchoResponse);
+
+  // SlowEcho deliberately takes longer than any sane client deadline, to
+  // demonstrate cancellation propagating into the handler.
+  rpc SlowEcho(EchoRequest) returns (EchoResponse);
+
+  // BidiEcho is a bidirectional stream: both sides read and write
+  // independently over one connection.
+  rpc BidiEcho(stream EchoRequest) returns (stream EchoResponse);
+}
+
+message EchoRequest {
+  string message = 1;
+}
+
+message EchoResponse {
+  string message = 1;
+}
