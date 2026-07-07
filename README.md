@@ -70,6 +70,7 @@ Every example carries a **Category** and a **Difficulty** tag (Beginner / Interm
 |---------|----------|-------------|
 | [circuit-breaker](examples/circuit-breaker/) | Patterns & Design | Hand-rolled breaker: closed/open/half-open, fail-fast, probe quota, fake-clock tests |
 | [grpc-advanced](examples/grpc-advanced/) | HTTP | Interceptors (auth via metadata), bidirectional streaming, deadline propagation |
+| [distributed-lock](examples/distributed-lock/) | Cloud & Infrastructure | Redis lock: `SET NX PX`, owner-only release (Lua), lease renewal, fencing tokens |
 | [redis](examples/redis/) | Cloud & Infrastructure | Task queue over Redis with Gin (go-redis v9) |
 | [dynamodb](examples/dynamodb/) | Cloud & Infrastructure | DynamoDB CRUD with AWS SDK v2 |
 
@@ -117,7 +118,7 @@ docker compose up -d
 Or bring up only what you need:
 
 ```bash
-docker compose up -d redis          # examples/redis
+docker compose up -d redis          # examples/redis, examples/distributed-lock
 docker compose up -d mysql          # examples/mysql
 docker compose up -d dynamodb       # examples/dynamodb
 docker compose up -d statsd         # examples/metric
@@ -132,7 +133,7 @@ docker compose down
 
 | Service | Port | Used by |
 |---------|------|---------|
-| Redis 7 | `6379` | `examples/redis` |
+| Redis 7 | `6379` | `examples/redis`, `examples/distributed-lock` — set `REDIS_LOCAL=1` for the lock tests |
 | MySQL 8 | `3306` | `examples/mysql` — user `root`, password `secret`, db `examples` |
 | DynamoDB Local | `8000` | `examples/dynamodb` — set `DYNAMODB_LOCAL=1` for tests |
 | StatsD | `8125/udp` | `examples/metric` |
