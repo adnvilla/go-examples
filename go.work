@@ -53,6 +53,7 @@ use (
 	./examples/sqlite
 	./examples/sync-primitives
 	./examples/templates
+	./examples/testcontainers
 	./examples/testing-patterns
 	./examples/typecast
 	./examples/wire
