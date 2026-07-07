@@ -40,6 +40,7 @@ use (
 	./examples/oop/composition
 	./examples/os-exec
 	./examples/otel
+	./examples/otel-propagation
 	./examples/outbox-pattern
 	./examples/pool
 	./examples/postgres
