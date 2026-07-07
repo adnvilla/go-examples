@@ -26,7 +26,7 @@ func TestTripsAfterConsecutiveFailures(t *testing.T) {
 	t.Parallel()
 	b := newTestBreaker(&fakeClock{})
 
-	for i := 0; i < 3; i++ {
+	for i := range 3 {
 		if err := b.Do(fail); !errors.Is(err, errBoom) {
 			t.Fatalf("call %d: err = %v, want errBoom", i+1, err)
 		}
@@ -59,7 +59,7 @@ func TestHalfOpenFailureReopens(t *testing.T) {
 	clock := &fakeClock{}
 	b := newTestBreaker(clock)
 
-	for i := 0; i < 3; i++ {
+	for range 3 {
 		_ = b.Do(fail)
 	}
 	clock.advance(2 * time.Minute)
@@ -82,7 +82,7 @@ func TestHalfOpenSuccessesClose(t *testing.T) {
 	clock := &fakeClock{}
 	b := newTestBreaker(clock)
 
-	for i := 0; i < 3; i++ {
+	for range 3 {
 		_ = b.Do(fail)
 	}
 	clock.advance(2 * time.Minute)
@@ -111,7 +111,7 @@ func TestStateChangesAreObserved(t *testing.T) {
 		transitions = append(transitions, from.String()+"->"+to.String())
 	}
 
-	for i := 0; i < 3; i++ {
+	for range 3 {
 		_ = b.Do(fail)
 	}
 	clock.advance(2 * time.Minute)
