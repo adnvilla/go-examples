@@ -70,6 +70,7 @@ Every example carries a **Category** and a **Difficulty** tag (Beginner / Interm
 |---------|----------|-------------|
 | [circuit-breaker](examples/circuit-breaker/) | Patterns & Design | Hand-rolled breaker: closed/open/half-open, fail-fast, probe quota, fake-clock tests |
 | [grpc-advanced](examples/grpc-advanced/) | HTTP | Interceptors (auth via metadata), bidirectional streaming, deadline propagation |
+| [websocket](examples/websocket/) | HTTP | Broadcast hub over WebSockets: reader pumps, ping liveness, slow-consumer policy |
 | [distributed-lock](examples/distributed-lock/) | Cloud & Infrastructure | Redis lock: `SET NX PX`, owner-only release (Lua), lease renewal, fencing tokens |
 | [postgres](examples/postgres/) | Cloud & Infrastructure | pgx: write skew live under read committed vs serializable (40001 + retry), LISTEN/NOTIFY |
 | [kafka](examples/kafka/) | Messaging | Keyed producer (key→partition), consumer group at-least-once, offset resume on restart |

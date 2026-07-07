@@ -57,5 +57,6 @@ use (
 	./examples/testcontainers
 	./examples/testing-patterns
 	./examples/typecast
+	./examples/websocket
 	./examples/wire
 )
