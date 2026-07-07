@@ -74,6 +74,7 @@ Some examples talk to a real backing service rather than a mock:
 | PostgreSQL 16 | 5432 | `examples/postgres` | user `postgres`, password `secret`, db `examples`; tests require `POSTGRES_LOCAL=1` env var set |
 | DynamoDB Local | 8000 | `examples/dynamodb` | tests require `DYNAMODB_LOCAL=1` env var set |
 | StatsD | 8125/udp | `examples/metric` | prints received metrics to stdout |
+| Kafka (KRaft) | 9092 | `examples/kafka` | single broker, no ZooKeeper; tests require `KAFKA_LOCAL=1` env var set |
 | Jaeger | 16686 (UI), 4318/4317 (OTLP) | `examples/otel` | optional — the example defaults to a stdout exporter and only needs Jaeger when `OTEL_EXPORTER_OTLP_ENDPOINT` is set |
 
 Start what you need with `docker compose up -d [service]` (or all of them with no service name) before running tests/examples that depend on them; `docker compose down` to tear down. Without the service running, those examples' tests will fail on connection errors, not skip.

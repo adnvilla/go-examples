@@ -70,6 +70,14 @@ services:
       - "8125:8125/udp"
       - "8126:8126"
 
+  # ── Kafka (KRaft mode, single broker) ────────────────────────────────────────
+  # Used by: examples/kafka
+  # Connect: localhost:9092 — set KAFKA_LOCAL=1 for tests
+  kafka:
+    image: apache/kafka:latest
+    ports:
+      - "9092:9092"
+
   # ── Jaeger (otel example) ──────────────────────────────────────────────────
   # Used by: examples/otel
   # UI: http://localhost:16686 — OTLP ingest: 4318 (HTTP), 4317 (gRPC)
