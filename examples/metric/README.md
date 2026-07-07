@@ -15,7 +15,7 @@ Show sending a counter metric to StatsD/Datadog via `github.com/DataDog/datadog-
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - Optional: a StatsD-compatible listener on `127.0.0.1:8125` to actually see the metrics land somewhere (this repo's `docker-compose.yml` provides one):
   ```bash
   docker compose up -d statsd

@@ -17,7 +17,7 @@ Show range-over-func iterators (Go 1.23+): functions matching `iter.Seq[V]` — 
 
 ## Prerequisites
 
-- Go 1.24+ (range-over-func requires Go 1.23+; this repo targets 1.25)
+- Go 1.25+ (range-over-func requires Go 1.23+; this repo targets 1.25)
 - No external services or environment variables required
 
 ## Project Structure

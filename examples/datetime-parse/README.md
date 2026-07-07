@@ -16,7 +16,7 @@ Show `github.com/araddon/dateparse` parsing dozens of real-world date/time forma
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

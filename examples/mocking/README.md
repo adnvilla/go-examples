@@ -18,7 +18,7 @@ Show how far plain Go interfaces go for test doubles — no framework required. 
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

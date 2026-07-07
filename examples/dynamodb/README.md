@@ -19,7 +19,7 @@ Show a full DynamoDB CRUD cycle with AWS SDK v2: create a table, put items (indi
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - A running DynamoDB Local instance (this repo's `docker-compose.yml` provides one on `localhost:8000`):
   ```bash
   docker compose up -d dynamodb

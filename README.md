@@ -1,6 +1,6 @@
 # go-examples
 
-A collection of standalone Go examples. Requires Go 1.24+.
+A collection of standalone Go examples. Requires Go 1.25+.
 
 ## Learning path
 

@@ -18,7 +18,7 @@ Show the three main things `context.Context` is used for in idiomatic Go: cancel
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

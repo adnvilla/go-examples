@@ -16,7 +16,7 @@ Show the worker pool pattern: a fixed number of goroutines pull jobs off a share
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

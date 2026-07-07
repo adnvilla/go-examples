@@ -16,7 +16,7 @@ Show the minimal shape of an AWS Lambda function written in Go: a handler functi
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services needed to **build** the example
 - Actually **invoking** it requires either deploying to AWS Lambda, or a local Lambda emulator (e.g. the [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)); an AWS account/credentials are needed to deploy
 

@@ -16,7 +16,7 @@ Show `golang.org/x/sync/errgroup` replacing the manual `sync.WaitGroup` + shared
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure
@@ -64,7 +64,7 @@ Each `fetch` call's delay is proportional to its `id` (`id*10ms`), and results a
 
 ## Common Pitfalls
 
-- **Forgetting to capture loop variables before Go 1.22.** `i, id := i, id` inside the loop is the classic guard against every goroutine closing over the same shared loop variable — as of Go 1.22 the language changed loop variable semantics to make each iteration's variable distinct, but this repo also runs on Go 1.24/1.25 where it's no longer strictly necessary; it's kept here for clarity and because the pattern is still idiomatic when targeting older Go versions.
+- **Forgetting to capture loop variables before Go 1.22.** `i, id := i, id` inside the loop is the classic guard against every goroutine closing over the same shared loop variable — as of Go 1.22 the language changed loop variable semantics to make each iteration's variable distinct, but this repo also runs on Go 1.25/1.26 where it's no longer strictly necessary; it's kept here for clarity and because the pattern is still idiomatic when targeting older Go versions.
 - **Ignoring the context `errgroup.WithContext` returns.** Using the *original* `ctx` instead of the one returned by `WithContext` means goroutines never see the early-cancellation-on-error behavior — the whole point of using `errgroup` over a plain `WaitGroup` for this use case.
 - **Assuming `g.Wait()` reports every failure.** Only the first error is returned; if you need all errors, collect them explicitly (e.g. via `errors.Join` — see [errors](../errors/)) inside each `g.Go` closure instead of relying on the group's return value.
 - **Setting `SetLimit` too low for the workload.** A limit lower than the number of goroutines that must run concurrently to make progress (e.g. if later tasks depend on earlier ones completing within the same batch) can deadlock — `SetLimit` is for bounding *independent* work, not for scheduling dependent tasks.

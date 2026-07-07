@@ -16,7 +16,7 @@ Show struct embedding — Go's alternative to inheritance. An embedded type's fi
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

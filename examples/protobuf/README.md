@@ -16,7 +16,7 @@ Show binary serialization with Protocol Buffers: define a message schema in a `.
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required to **run** the example
 - Regenerating `addressbook.pb.go` from `addressbook.proto` requires the [protoc compiler](https://github.com/protocolbuffers/protobuf/releases) and the Go plugin (`protoc-gen-go`) on `PATH`
 

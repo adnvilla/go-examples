@@ -16,7 +16,7 @@ Show a small, reusable worker-pool package with per-task error tracking: run a f
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

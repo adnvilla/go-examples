@@ -16,7 +16,7 @@ Show compile-time dependency injection with [google/wire](https://github.com/goo
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required to **run** the example
 - Regenerating `wire_gen.go` requires the `wire` CLI: `go install github.com/google/wire/cmd/wire@latest`
 

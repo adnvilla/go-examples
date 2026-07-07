@@ -16,7 +16,7 @@ Benchmark four ways of calling the same operation on a value depending on how it
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

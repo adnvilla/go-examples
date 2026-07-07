@@ -16,7 +16,7 @@ Show how to bound how long you'll wait for any single goroutine in a fan-out, us
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services or environment variables required
 
 ## Project Structure

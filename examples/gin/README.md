@@ -16,7 +16,7 @@ Show the smallest possible HTTP API using the [Gin](https://github.com/gin-gonic
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services; listens on `:8080`
 
 ## Project Structure

@@ -17,7 +17,7 @@ Show a production-shaped HTTP server built entirely on the standard library: a m
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - No external services; listens on `:8080`
 
 ## Project Structure

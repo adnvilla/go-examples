@@ -16,7 +16,7 @@ Show the basic `database/sql` + `go-sql-driver/mysql` pattern: connect, prepare 
 
 ## Prerequisites
 
-- Go 1.24+
+- Go 1.25+
 - A running MySQL instance matching this repo's `docker-compose.yml` (`root`/`secret`@`localhost:3306`/`examples`):
   ```bash
   docker compose up -d mysql
