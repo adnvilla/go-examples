@@ -40,6 +40,7 @@ use (
 	./examples/os-exec
 	./examples/otel
 	./examples/pool
+	./examples/postgres
 	./examples/profiling
 	./examples/protobuf
 	./examples/recover
