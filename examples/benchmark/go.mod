@@ -1,6 +1,6 @@
 module github.com/adnvilla/go-examples/examples/benchmark
 
-go 1.25.0
+go 1.26
 
 require github.com/go-sql-driver/mysql v1.10.0
 
